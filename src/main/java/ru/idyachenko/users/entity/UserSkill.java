@@ -21,4 +21,25 @@ public class UserSkill {
     private User user;
 
     // Constructors, getters, and setters
+
+    public Skill getSkill() {
+        return skill;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setSkill(Skill skill) {
+        this.skill = skill;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public UserSkill(Skill skill, User user) {
+        this.skill = skill;
+        this.user = user;
+    }
 }

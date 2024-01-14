@@ -22,4 +22,33 @@ public class Skill {
     private String skillDesc;
 
     // Constructors, getters, and setters
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getSkillName() {
+        return skillName;
+    }
+
+    public String getSkillDesc() {
+        return skillDesc;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setSkillName(String skillName) {
+        this.skillName = skillName;
+    }
+
+    public void setSkillDesc(String skillDesc) {
+        this.skillDesc = skillDesc;
+    }
+
+    public Skill(String skillName, String skillDesc) {
+        this.skillName = skillName;
+        this.skillDesc = skillDesc;
+    }
 }

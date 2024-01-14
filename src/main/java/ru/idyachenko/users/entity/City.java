@@ -19,4 +19,24 @@ public class City {
     private String cityName;
 
     // Constructors, getters, and setters
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public City(String cityName) {
+        this.cityName = cityName;
+    }
 }
