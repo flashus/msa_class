@@ -51,4 +51,16 @@ public class Skill {
         this.skillName = skillName;
         this.skillDesc = skillDesc;
     }
+
+    public Skill() {
+    }
+
+    @Override
+    public String toString() {
+        return "Skill{" +
+                "id=" + id +
+                ", skillName='" + skillName + '\'' +
+                ", skillDesc='" + skillDesc + '\'' +
+                '}';
+    }
 }

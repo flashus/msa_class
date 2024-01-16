@@ -31,4 +31,15 @@ public class SubscriptionId implements Serializable {
         this.userFollowing = userFollowing;
         this.userFollowed = userFollowed;
     }
+
+    public SubscriptionId() {
+    }
+
+    @Override
+    public String toString() {
+        return "SubscriptionId{" +
+                "userFollowing=" + userFollowing +
+                ", userFollowed=" + userFollowed +
+                '}';
+    }
 }

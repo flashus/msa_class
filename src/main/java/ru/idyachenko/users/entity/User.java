@@ -5,8 +5,6 @@ import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
-import org.hibernate.annotations.Where;
-import org.hibernate.id.uuid.UuidGenerator;
 
 import java.util.UUID;
 import java.sql.Date;
@@ -17,9 +15,6 @@ import java.sql.Timestamp;
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
 @SQLRestriction("deleted=false")
 public class User {
-    // @Id
-    // @GeneratedValue(strategy = GenerationType.AUTO)
-    // private long id;
 
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -155,5 +150,65 @@ public class User {
     @Nullable
     public Timestamp getDeleted_at() {
         return deleted_at;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setFname(String fname) {
+        this.fname = fname;
+    }
+
+    public void setLname(String lname) {
+        this.lname = lname;
+    }
+
+    public void setMname(@Nullable String mname) {
+        this.mname = mname;
+    }
+
+    public void setGender(@Nullable Boolean gender) {
+        this.gender = gender;
+    }
+
+    public void setBdate(@Nullable Date bdate) {
+        this.bdate = bdate;
+    }
+
+    public void setCity(@Nullable City city) {
+        this.city = city;
+    }
+
+    public void setAvatar_url(String avatar_url) {
+        this.avatar_url = avatar_url;
+    }
+
+    public void setBio(@Nullable String bio) {
+        this.bio = bio;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPhone(@Nullable String phone) {
+        this.phone = phone;
+    }
+
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at = created_at;
+    }
+
+    public void setDeleted(@Nullable Boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public void setDeleted_at(@Nullable Timestamp deleted_at) {
+        this.deleted_at = deleted_at;
     }
 }

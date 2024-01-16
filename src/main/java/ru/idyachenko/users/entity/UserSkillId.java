@@ -31,4 +31,15 @@ public class UserSkillId implements Serializable {
         this.skill = skill;
         this.user = user;
     }
+
+    public UserSkillId() {
+    }
+
+    @Override
+    public String toString() {
+        return "UserSkillId{" +
+                "user=" + user +
+                ", skill=" + skill +
+                '}';
+    }
 }

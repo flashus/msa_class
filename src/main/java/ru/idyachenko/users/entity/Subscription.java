@@ -6,7 +6,6 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.sql.Timestamp;
-import java.util.UUID;
 
 @Entity
 @Table(name = "subscriptions")
@@ -53,5 +52,18 @@ public class Subscription {
         this.userFollowing = userFollowing;
         this.userFollowed = userFollowed;
         this.created_at = new Timestamp(System.currentTimeMillis());
+    }
+
+    public Subscription() {
+        this.created_at = new Timestamp(System.currentTimeMillis());
+    }
+
+    @Override
+    public String toString() {
+        return "Subscription{" +
+                "userFollowing=" + userFollowing +
+                ", userFollowed=" + userFollowed +
+                ", created_at=" + created_at +
+                '}';
     }
 }

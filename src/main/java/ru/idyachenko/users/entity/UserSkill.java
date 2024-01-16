@@ -5,7 +5,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.util.UUID;
 
 @Entity
 @Table(name = "user_skills")
@@ -41,5 +40,16 @@ public class UserSkill {
     public UserSkill(Skill skill, User user) {
         this.skill = skill;
         this.user = user;
+    }
+
+    public UserSkill() {
+    }
+
+    @Override
+    public String toString() {
+        return "UserSkill{" +
+                "user=" + user +
+                ", skill=" + skill +
+                '}';
     }
 }
