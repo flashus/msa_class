@@ -51,10 +51,23 @@ public class User {
     private Timestamp deleted_at;
 
     public User() {
+        // this.id = UUID.randomUUID();
         this.created_at = new Timestamp(System.currentTimeMillis());
     }
 
     public User(String fname, String lname, String mname, String avatar_url, String nickname, String email) {
+        // this.id = UUID.randomUUID();
+        this.fname = fname;
+        this.lname = lname;
+        this.mname = mname;
+        this.avatar_url = avatar_url;
+        this.nickname = nickname;
+        this.email = email;
+        this.created_at = new Timestamp(System.currentTimeMillis());
+    }
+
+    public User(UUID id, String fname, String lname, String mname, String avatar_url, String nickname, String email) {
+        this.id = id;
         this.fname = fname;
         this.lname = lname;
         this.mname = mname;

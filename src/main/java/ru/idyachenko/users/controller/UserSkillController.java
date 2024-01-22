@@ -1,5 +1,6 @@
 package ru.idyachenko.users.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,12 +30,12 @@ public class UserSkillController {
     }
 
     @PostMapping
-    String createUserSkill(@RequestBody @NonNull UserSkill userSkill) {
+    ResponseEntity<String> createUserSkill(@RequestBody @NonNull UserSkill userSkill) {
         return userSkillService.createUserSkill(userSkill);
     }
 
     @DeleteMapping
-    String deleteUserSkill(@RequestBody @NonNull UserSkill userSkill) {
+    ResponseEntity<String> deleteUserSkill(@RequestBody @NonNull UserSkill userSkill) {
         return userSkillService.deleteUserSkill(userSkill);
     }
 }

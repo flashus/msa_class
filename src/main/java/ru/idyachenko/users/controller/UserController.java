@@ -1,5 +1,8 @@
 package ru.idyachenko.users.controller;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 import ru.idyachenko.users.entity.User;
@@ -18,7 +21,8 @@ public class UserController {
     }
 
     @PostMapping
-    String createUser(@RequestBody @NonNull User user) {
+    // String createUser(@RequestBody @NonNull User user) {
+    ResponseEntity<String> createUser(@RequestBody @NonNull User user) {
         return userService.createUser(user);
     }
 
@@ -28,13 +32,12 @@ public class UserController {
     }
 
     @PutMapping(path = "/{id}")
-    String updateUser(@RequestBody User user, @PathVariable @NonNull UUID id) {
-
+    ResponseEntity<String> updateUser(@RequestBody User user, @PathVariable @NonNull UUID id) {
         return userService.updateUser(user, id);
     }
 
     @DeleteMapping(path = "/{id}")
-    String deleteUser(@PathVariable @NonNull UUID id) {
+    ResponseEntity<String> deleteUser(@PathVariable @NonNull UUID id) {
         return userService.deleteUser(id);
     }
 

@@ -1,5 +1,6 @@
 package ru.idyachenko.users.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 import ru.idyachenko.users.entity.Subscription;
@@ -29,7 +30,7 @@ public class SubscriptionController {
     }
 
     @PostMapping
-    String createSubscription(@RequestBody @NonNull Subscription subscription) {
+    ResponseEntity<String> createSubscription(@RequestBody @NonNull Subscription subscription) {
         return subscriptionService.createSubscription(subscription);
     }
 
@@ -42,7 +43,7 @@ public class SubscriptionController {
     }
 
     @PutMapping(path = "/{userFollowingId}/{userFollowedId}")
-    String updateSubscription(
+    ResponseEntity<String> updateSubscription(
             @RequestBody Subscription subscription,
             @PathVariable @NonNull UUID userFollowingId,
             @PathVariable @NonNull UUID userFollowedId) {
@@ -50,7 +51,7 @@ public class SubscriptionController {
     }
 
     @DeleteMapping(path = "/{userFollowingId}/{userFollowedId}")
-    String deleteSubscription(
+    ResponseEntity<String> deleteSubscription(
             @PathVariable @NonNull UUID userFollowingId,
             @PathVariable @NonNull UUID userFollowedId) {
         return subscriptionService.deleteSubscription(userFollowingId, userFollowedId);

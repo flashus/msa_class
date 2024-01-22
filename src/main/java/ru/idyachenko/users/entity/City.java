@@ -37,10 +37,17 @@ public class City {
     }
 
     public City(String cityName) {
+        // this.id = UUID.randomUUID();
         this.cityName = cityName;
     }
-    public City() {
 
+    public City() {
+        // this.id = UUID.randomUUID();
+    }
+
+    public City(UUID id, String cityName) {
+        this.id = id;
+        this.cityName = cityName;
     }
 
     @Override

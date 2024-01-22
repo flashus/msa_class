@@ -49,9 +49,9 @@ public class UsersApplication {
 			skillRepository.save(cpp);
 			skillRepository.save(java);
 
-			UserSkill vasya_cpp = new UserSkill(cpp, vasya);
-			UserSkill vasya_java = new UserSkill(java, vasya);
-			UserSkill petya_java = new UserSkill(java, petya);
+			UserSkill vasya_cpp = new UserSkill(vasya, cpp);
+			UserSkill vasya_java = new UserSkill(vasya, java);
+			UserSkill petya_java = new UserSkill(petya, java);
 			userSkillRepository.save(vasya_cpp);
 			userSkillRepository.save(vasya_java);
 			userSkillRepository.save(petya_java);

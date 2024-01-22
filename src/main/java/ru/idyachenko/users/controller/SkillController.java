@@ -1,5 +1,6 @@
 package ru.idyachenko.users.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 import ru.idyachenko.users.entity.Skill;
@@ -23,7 +24,7 @@ public class SkillController {
     }
 
     @PostMapping
-    String createSkill(@RequestBody @NonNull Skill skill) {
+    ResponseEntity<String> createSkill(@RequestBody @NonNull Skill skill) {
         return skillService.createSkill(skill);
     }
 
@@ -33,12 +34,12 @@ public class SkillController {
     }
 
     @PutMapping(path = "/{id}")
-    String updateSkill(@RequestBody Skill skill, @PathVariable @NonNull UUID id) {
+    ResponseEntity<String> updateSkill(@RequestBody Skill skill, @PathVariable @NonNull UUID id) {
         return skillService.updateSkill(skill, id);
     }
 
     @DeleteMapping(path = "/{id}")
-    String deleteSkill(@PathVariable @NonNull UUID id) {
+    ResponseEntity<String> deleteSkill(@PathVariable @NonNull UUID id) {
         return skillService.deleteSkill(id);
     }
 }

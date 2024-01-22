@@ -27,7 +27,7 @@ public class UserSkillId implements Serializable {
         this.user = user;
     }
 
-    public UserSkillId(UUID skill, UUID user) {
+    public UserSkillId(UUID user, UUID skill) {
         this.skill = skill;
         this.user = user;
     }
@@ -42,4 +42,36 @@ public class UserSkillId implements Serializable {
                 ", skill=" + skill +
                 '}';
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((skill == null) ? 0 : skill.hashCode());
+        result = prime * result + ((user == null) ? 0 : user.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        UserSkillId other = (UserSkillId) obj;
+        if (skill == null) {
+            if (other.skill != null)
+                return false;
+        } else if (!skill.equals(other.skill))
+            return false;
+        if (user == null) {
+            if (other.user != null)
+                return false;
+        } else if (!user.equals(other.user))
+            return false;
+        return true;
+    }
+
 }

@@ -1,5 +1,6 @@
 package ru.idyachenko.users.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 import ru.idyachenko.users.entity.City;
@@ -23,7 +24,7 @@ public class CityController {
     }
 
     @PostMapping
-    String createCity(@RequestBody @NonNull City city) {
+    ResponseEntity<String> createCity(@RequestBody @NonNull City city) {
         return cityService.createCity(city);
     }
 
@@ -33,12 +34,12 @@ public class CityController {
     }
 
     @PutMapping(path = "/{id}")
-    String updateCity(@RequestBody City city, @PathVariable @NonNull UUID id) {
+    ResponseEntity<String> updateCity(@RequestBody City city, @PathVariable @NonNull UUID id) {
         return cityService.updateCity(city, id);
     }
 
     @DeleteMapping(path = "/{id}")
-    String deleteCity(@PathVariable @NonNull UUID id) {
+    ResponseEntity<String> deleteCity(@PathVariable @NonNull UUID id) {
         return cityService.deleteCity(id);
     }
 }

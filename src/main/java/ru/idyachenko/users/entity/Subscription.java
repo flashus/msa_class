@@ -6,6 +6,7 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.sql.Timestamp;
+import java.util.UUID;
 
 @Entity
 @Table(name = "subscriptions")
@@ -23,6 +24,10 @@ public class Subscription {
     private Timestamp created_at;
 
     // Constructors, getters, and setters
+
+    public SubscriptionId getId() {
+        return new SubscriptionId(userFollowing.getId(), userFollowed.getId());
+    }
 
     public User getUserFollowing() {
         return userFollowing;
@@ -58,6 +63,12 @@ public class Subscription {
         this.created_at = new Timestamp(System.currentTimeMillis());
     }
 
+    // public Subscription(SubscriptionId subscriptionId) {
+    // this.userFollowing = subscriptionId.getUserFollowing();
+    // this.userFollowed = subscriptionId.getUserFollowed();
+    // this.created_at = new Timestamp(System.currentTimeMillis());
+    // }
+
     @Override
     public String toString() {
         return "Subscription{" +
@@ -65,5 +76,36 @@ public class Subscription {
                 ", userFollowed=" + userFollowed +
                 ", created_at=" + created_at +
                 '}';
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((userFollowing == null) ? 0 : userFollowing.hashCode());
+        result = prime * result + ((userFollowed == null) ? 0 : userFollowed.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Subscription other = (Subscription) obj;
+        if (userFollowing == null) {
+            if (other.userFollowing != null)
+                return false;
+        } else if (!userFollowing.equals(other.userFollowing))
+            return false;
+        if (userFollowed == null) {
+            if (other.userFollowed != null)
+                return false;
+        } else if (!userFollowed.equals(other.userFollowed))
+            return false;
+        return true;
     }
 }
