@@ -11,6 +11,7 @@ import ru.idyachenko.users.entity.SubscriptionId;
 import ru.idyachenko.users.repository.SubscriptionRepository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -67,8 +68,8 @@ public class SubscriptionService {
                     "User following and user followed must match the IDs.");
         }
 
-        if (subscription.getUserFollowing().getId().equals(null)
-                || subscription.getUserFollowed().getId().equals(null)) {
+        if ((subscription.getUserFollowing().getId() == null)
+                || (subscription.getUserFollowed().getId() == null)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "User following and user followed must not be null.");
         }
