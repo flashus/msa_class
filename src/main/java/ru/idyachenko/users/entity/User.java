@@ -27,8 +27,13 @@ public class User {
     private String lname;
     @Nullable
     private String mname;
+
     @Nullable
-    private Boolean gender;
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "gender", columnDefinition = "bit")
+    // @Convert(converter = GenderConverter.class)
+    private Gender gender;
+
     @Nullable
     private Date bdate;
 
@@ -116,7 +121,8 @@ public class User {
     }
 
     @Nullable
-    public Boolean getGender() {
+    // public Boolean getGender() {
+    public Gender getGender() {
         return gender;
     }
 
@@ -181,7 +187,8 @@ public class User {
         this.mname = mname;
     }
 
-    public void setGender(@Nullable Boolean gender) {
+    // public void setGender(@Nullable Boolean gender) {
+    public void setGender(@Nullable Gender gender) {
         this.gender = gender;
     }
 
