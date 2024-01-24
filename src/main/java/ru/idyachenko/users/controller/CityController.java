@@ -1,5 +1,7 @@
 package ru.idyachenko.users.controller;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +26,16 @@ public class CityController {
     }
 
     @PostMapping
-    ResponseEntity<String> createCity(@RequestBody @NonNull City city) {
-        return cityService.createCity(city);
+    ResponseEntity<Object> createCity(@RequestBody @NonNull City city) {
+        // return cityService.createCity(city);
+        UUID savedCityId = cityService.createCity(city);
+        // String desc = String.format("City %s added to the database with id = %s",
+        // city.getCityName(),
+        // savedCityId);
+
+        HttpHeaders headers = Common.getHeaders(savedCityId, "/cities/");
+
+        return new ResponseEntity<>(savedCityId, headers, HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/{id}")
@@ -35,11 +45,24 @@ public class CityController {
 
     @PutMapping(path = "/{id}")
     ResponseEntity<String> updateCity(@RequestBody City city, @PathVariable @NonNull UUID id) {
-        return cityService.updateCity(city, id);
+        // return cityService.updateCity(city, id);
+        UUID cityId = cityService.updateCity(city, id);
+        String desc = String.format("City %s successfully updated", city.getCityName());
+
+        HttpHeaders headers = Common.getHeaders(cityId, "/cities/");
+
+        return new ResponseEntity<>(desc, headers, HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{id}")
     ResponseEntity<String> deleteCity(@PathVariable @NonNull UUID id) {
-        return cityService.deleteCity(id);
+        // return cityService.deleteCity(id);
+        UUID cityId = cityService.deleteCity(id);
+
+        String desc = String.format("City with id = %s successfully deleted", cityId);
+
+        HttpHeaders headers = Common.getHeaders(cityId, "/cities/");
+
+        return new ResponseEntity<>(desc, headers, HttpStatus.OK);
     }
 }

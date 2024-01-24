@@ -88,16 +88,19 @@ public class CityServiceTest {
         when(cityRepository.save(city)).thenReturn(savedCity);
 
         // when
-        ResponseEntity<String> response = cityService.createCity(city);
-        HttpHeaders headers = response.getHeaders();
-        String expectedResult = String.format("City %s added to the database with id = %s", savedCity.getCityName(),
-                savedCity.getId());
+        UUID response = cityService.createCity(city);
+        // ResponseEntity<String> response = cityService.createCity(city);
+        // HttpHeaders headers = response.getHeaders();
+        // String expectedResult = String.format("City %s added to the database with id
+        // = %s", savedCity.getCityName(),
+        // savedCity.getId());
 
         // then
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(String.format("/cities/%s", id), headers.getFirst("Location"));
-        assertEquals(id.toString(), headers.getFirst("X-UserId"));
-        assertEquals(expectedResult, response.getBody());
+        // assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        // assertEquals(String.format("/cities/%s", id), headers.getFirst("Location"));
+        // assertEquals(id.toString(), headers.getFirst("X-UserId"));
+        // assertEquals(expectedResult, response.getBody());
+        assertEquals(savedCity.getId(), response);
 
         verify(cityRepository, times(1)).save(city);
     }
@@ -145,17 +148,20 @@ public class CityServiceTest {
         when(cityRepository.save(city)).thenReturn(savedCity);
 
         // when
-        ResponseEntity<String> response = cityService.updateCity(city, id);
-        HttpHeaders headers = response.getHeaders();
-        String desc = String.format("City %s successfully updated", savedCity.getCityName());
+        UUID response = cityService.updateCity(city, id);
+        // ResponseEntity<String> response = cityService.updateCity(city, id);
+        // HttpHeaders headers = response.getHeaders();
+        // String desc = String.format("City %s successfully updated",
+        // savedCity.getCityName());
 
         // then
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        // assertEquals(HttpStatus.OK, response.getStatusCode());
 
-        assertEquals(String.format("/cities/%s", id), headers.getFirst("Location"));
-        assertEquals(id.toString(), headers.getFirst("X-UserId"));
+        // assertEquals(String.format("/cities/%s", id), headers.getFirst("Location"));
+        // assertEquals(id.toString(), headers.getFirst("X-UserId"));
 
-        assertEquals(desc, response.getBody());
+        // assertEquals(desc, response.getBody());
+        assertEquals(id, response);
     }
 
     @Test
@@ -206,17 +212,19 @@ public class CityServiceTest {
         when(cityRepository.existsById(id)).thenReturn(true);
 
         // when
-        ResponseEntity<String> response = cityService.deleteCity(id);
-        HttpHeaders headers = response.getHeaders();
-        String desc = String.format("City with id = %s successfully deleted", id);
+        UUID response = cityService.deleteCity(id);
+        // ResponseEntity<String> response = cityService.deleteCity(id);
+        // HttpHeaders headers = response.getHeaders();
+        // String desc = String.format("City with id = %s successfully deleted", id);
 
         // then
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(String.format("/cities/%s", id), headers.getFirst("Location"));
-        assertEquals(id.toString(), headers.getFirst("X-UserId"));
+        // assertEquals(HttpStatus.OK, response.getStatusCode());
+        // assertEquals(String.format("/cities/%s", id), headers.getFirst("Location"));
+        // assertEquals(id.toString(), headers.getFirst("X-UserId"));
 
         verify(cityRepository).deleteById(id);
-        assertEquals(desc, response.getBody());
+        // assertEquals(desc, response.getBody());
+        assertEquals(id, response);
     }
 
     @Test
