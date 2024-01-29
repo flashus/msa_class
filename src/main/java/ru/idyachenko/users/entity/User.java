@@ -29,7 +29,8 @@ public class User {
     private String mname;
 
     @Nullable
-    @Enumerated(EnumType.ORDINAL)
+    // @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @Column(name = "gender", columnDefinition = "bit")
     // @Convert(converter = GenderConverter.class)
     private Gender gender;

@@ -30,7 +30,11 @@ public class UsersApplication {
 			// String nickname, String email) {
 
 			User vasya = new User("Vasya", "Petrov", "Ivanovich", "http://", "vasya", "vasya@mail.com");
+			vasya.setGender(Gender.MALE);
 			User petya = new User("Petya", "Ivanoff", "Ivanovich", "http://", "petya", "petya@mail.com");
+			petya.setGender(Gender.MALE);
+			User anna = new User("Anna", "Smirnova", "Petrovna", "http://", "anya", "anya@mail.com");
+			anna.setGender(Gender.FEMALE);
 
 			City yuzhno = new City("Yuzhno-Sakhalinsk");
 			City msk = new City("Moscow");
@@ -40,9 +44,11 @@ public class UsersApplication {
 
 			vasya.setCity(yuzhno);
 			petya.setCity(msk);
+			anna.setCity(msk);
 
 			userRepository.save(vasya);
 			userRepository.save(petya);
+			userRepository.save(anna);
 
 			Skill cpp = new Skill("C++", "C++ lang");
 			Skill java = new Skill("Java", "Java lang");
@@ -52,9 +58,12 @@ public class UsersApplication {
 			UserSkill vasya_cpp = new UserSkill(vasya, cpp);
 			UserSkill vasya_java = new UserSkill(vasya, java);
 			UserSkill petya_java = new UserSkill(petya, java);
+			UserSkill anna_cpp = new UserSkill(anna, cpp);
+
 			userSkillRepository.save(vasya_cpp);
 			userSkillRepository.save(vasya_java);
 			userSkillRepository.save(petya_java);
+			userSkillRepository.save(anna_cpp);
 
 			Subscription vasya_petya = new Subscription(vasya, petya);
 			subscriptionRepository.save(vasya_petya);

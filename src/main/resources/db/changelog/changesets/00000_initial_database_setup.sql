@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS "users" (
   "fname" varchar(50) NOT NULL,
   "lname" varchar(50) NOT NULL,
   "mname" varchar(50),
-  "gender" smallint,
+  "gender" varchar(6), --smallint,
   "bdate" date,
   "city_id" uuid,
   "avatar_url" varchar(500) NOT NULL,
