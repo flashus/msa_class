@@ -2,7 +2,10 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.1'
 	id 'io.spring.dependency-management' version '1.1.4'
+	// id 'co.uzzu.dotenv.gradle' version '4.0.0'
 }
+
+// apply plugin: 'co.uzzu.dotenv.gradle'
 
 group = 'ru.idyachenko'
 version = '0.0.1-SNAPSHOT'
@@ -28,4 +31,20 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+test {
+    // environment "DB_URL", "jdbc:postgresql://localhost:5432/social"
+	environment "DB_URL", "jdbc:postgresql://localhost:5400/social"
+    environment "DB_USERNAME", "pguser"
+    environment "DB_PASSWORD", "pgpass"
+	environment "PORT", "8008"	
+}
+
+bootRun {
+    // environment "DB_URL", "jdbc:postgresql://localhost:5432/social"
+	environment "DB_URL", "jdbc:postgresql://localhost:5400/social"
+    environment "DB_USERNAME", "pguser"
+    environment "DB_PASSWORD", "pgpass"
+	environment "PORT", "8008"	
 }

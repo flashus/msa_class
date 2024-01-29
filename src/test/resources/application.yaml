@@ -1,0 +1,4 @@
+# src/test/resources/application.yaml
+spring:
+  profiles:
+    active: test
