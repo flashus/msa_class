@@ -1,0 +1,11 @@
+POST http://localhost:8080/cities
+Content-Type: application/json
+
+{
+"cityName": "New Zadrupinsk"
+}
+
+###
+
+# get city
+GET http://localhost:8080/cities/cf050df1-5674-4021-ac63-4a9cdc4fb754

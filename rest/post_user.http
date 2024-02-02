@@ -1,0 +1,16 @@
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+"fname": "NewVasya",
+"lname": "Okhlomov",
+"mname": "Ivanovich",
+"avatar_url": "http://",
+"nickname": "vasya",
+"email": "vasya@mail.com"
+}
+
+###
+
+# get user
+GET http://localhost:8080/users/602487ee-49b2-4ce8-b2d1-baa9ea651a01
