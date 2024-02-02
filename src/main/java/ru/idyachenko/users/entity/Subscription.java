@@ -1,8 +1,10 @@
 package ru.idyachenko.users.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.sql.Timestamp;
@@ -15,10 +17,12 @@ public class Subscription {
 
     @Id
     @ManyToOne
+    @JoinColumn(name = "user_following_id")
     private User userFollowing;
 
     @Id
     @ManyToOne
+    @JoinColumn(name = "user_followed_id")
     private User userFollowed;
 
     private Timestamp created_at;

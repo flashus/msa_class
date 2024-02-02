@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate.ddl-auto: validate
+    show-sql: true
+    generate-ddl: false
+    properties:
+      hibernate.dialect: "org.hibernate.dialect.PostgreSQLDialect"
+      hibernate.current_session_context_class: "org.springframework.orm.hibernate5.SpringSessionContext"
+      hibernate.connection.characterEncoding: "UTF-8"
+      hibernate.connection.charSet: "UTF-8"
+      hibernate.temp.use_jdbc_metadata_defaults: "true"
+      hibernate.physical_naming_strategy: "org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl"
+
+# spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+logging:
+  level:
+    # org.springframework: DEBUG
+    # org.springframework.orm.jpa.JpaTransactionManager: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+server:
+  # port: 8008
+  port: ${PORT}

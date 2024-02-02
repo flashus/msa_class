@@ -1,5 +1,6 @@
 package ru.idyachenko.users.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -21,8 +22,10 @@ public class Skill {
     @UuidGenerator(style = UuidGenerator.Style.TIME)
     private UUID id;
 
+    @Column(name = "skill_name", nullable = false)
     private String skillName;
 
+    @Column(name = "skill_desc", nullable = false)
     private String skillDesc;
 
     // Constructors, getters, and setters

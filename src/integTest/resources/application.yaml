@@ -1,0 +1,6 @@
+logging:
+  level:
+    org.springfaramework: DEBUG
+    org.springfaramework.orm.jpa.JpaTransactionManager: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.desriptor.sql.BasicBinder: TRACE
