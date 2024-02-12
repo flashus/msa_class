@@ -18,7 +18,7 @@ scoop install minikube helm
 minikube start
 minikube addons enable ingress
 
-cd users
+cd .chart
 helm install users .
 
 #check service, forward from kuber:80 to local:8888
