@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.appName }}-config # users-config
+  namespace: {{ .Values.namespace }}
+data:
+  userapp_backend_host: {{ .Values.apiHost }} # http://users-app-backend-service
+  userapp_db_name: {{ .Values.db_name }} # user
+  userapp_db_user: {{ .Values.db_user }} # postgres-user
+  userapp_db_password: {{ .Values.db_password }} # postgres-password
+  userapp_db_url: {{ .Values.db_url }} # jdbc:postgresql://psql:5432/user
+  userapp_port: "{{ .Values.app_port }}"

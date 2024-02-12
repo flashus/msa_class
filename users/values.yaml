@@ -1,0 +1,102 @@
+appName: users
+namespace: &namespace default # users-dev
+# ingressedService: users-frontend-service
+ingressedService: users-backend-service
+apiHost: http://users-backend-service
+appHost: users.local
+# appHost: localhost
+
+dbHost: http://users-db-service
+db_name: user
+db_user: postgres-user
+db_password: postgres-password
+db_url: jdbc:postgresql://users-db-service:5432/user
+app_port: 8080
+
+apps:
+  backend:
+    appName: users-backend
+    namespace: *namespace
+    replicasCount: 2
+    container:
+      image: flashus/users-backend
+      # image: users-backend
+      version: v1.0.0
+      port: 8080
+      env:
+        - name: REACT_APP_USERS_BACKEND_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: users-config
+              key: userapp_backend_host
+        - name: DB_URL
+          valueFrom:
+            configMapKeyRef:
+              name: users-config
+              key: userapp_db_url
+        - name: DB_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: users-config
+              key: userapp_db_user
+        - name: DB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: users-config
+              key: userapp_db_password
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: users-config
+              key: userapp_port
+    service:
+      port: 80
+      targetPort: 8080
+
+  db:
+    appName: users-db
+    namespace: *namespace
+    replicasCount: 1
+    container:
+      image: postgres
+      version: 14
+      port: 5432
+      env:
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: users-config
+              key: userapp_db_name
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: users-config
+              key: userapp_db_user
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: users-config
+              key: userapp_db_password
+    service:
+      port: 5432
+      targetPort: 5432
+
+  # frontend:
+#   appName: users-frontend
+#   replicasCount: 2
+#   container:
+#     image: users-frontend
+#     version: v1.0.0
+#     port: 3000
+#     env:
+#     - name: REACT_APP_USERS_BACKEND_HOST
+#       valueFrom:
+#         configMapKeyRef:
+#           name: users-config
+#           key: userapp_backend_host
+#   service:
+#     type: LoadBalancer
+#     port: 80
+#     targetPort: 3000
+#     nodePort: 30000
+
