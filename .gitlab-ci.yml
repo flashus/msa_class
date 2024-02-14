@@ -28,7 +28,8 @@ build_app:
   # Указываем образ, который будет использоваться для выполнения шага:
   image: openjdk:$JAVA_VERSION
   # В разделе скрипта задаём команду, которую хотим выполнить:
-  script: "./gradlew assemble"
+  # script: "./gradlew assemble"
+  script: "chmod +x ./gradlew && ./gradlew assemble"
 
 run_tests:
   stage: test
