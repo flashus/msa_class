@@ -32,5 +32,4 @@ kubectl port-forward service/users-backend-service 8888:80
 minikube stop
 & minikube -p minikube docker-env --unset --shell powershell | Invoke-Expression #win pwsh disable minikube env
 
-
 ```
