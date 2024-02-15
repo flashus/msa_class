@@ -14,7 +14,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.persistence.PersistenceException;
 import ru.idyachenko.users.entity.City;
-import ru.idyachenko.users.entity.User;
 import ru.idyachenko.users.repository.CityRepository;
 
 import java.util.ArrayList;
@@ -24,19 +23,23 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+// @SpringBootTest
 public class CityServiceTest {
 
-    @InjectMocks
-    private CityService cityService;
+    // @InjectMocks
+    // private CityService cityService;
 
-    @Mock
-    private CityRepository cityRepository;
+    // @Mock
+    // private CityRepository cityRepository;
+
+    private CityRepository cityRepository = mock(CityRepository.class);
+    private CityService cityService = new CityService(cityRepository);
 
     private City city;
     private City city2;

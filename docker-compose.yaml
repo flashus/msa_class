@@ -2,7 +2,7 @@ services:
   psql:
     image: postgres:14
     ports:
-      - "5001:5432"
+      - "5432:5432"
     volumes:
       - "./data:/var/lib/postgresql/data"
     environment:
@@ -10,7 +10,7 @@ services:
       POSTGRES_USER: postgres-user
       POSTGRES_PASSWORD: postgres-password
     restart: unless-stopped
-  
+
   # pgadmin:
   #   image: dpage/pgadmin4:8.2
   #   ports:
@@ -23,7 +23,12 @@ services:
   #     - psql
 
   app:
-    build: .
+    image: flashus/users
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # build: .
+    # command: ["/bin/sh", "-c", "ls /build/libs"]
     ports:
       - "8080:8080"
     environment:

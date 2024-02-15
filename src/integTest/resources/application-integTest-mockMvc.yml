@@ -1,10 +1,16 @@
 spring:
   datasource:
     name: "integtest_users_application"
-    url: "jdbc:h2:mem:testdb"
+    url: "jdbc:h2:mem:users"
     username: "sa"
     password: "sa"
     driver-class-name: "org.h2.Driver"
+  # spring:
+  #   datasource:
+  #     url: jdbc:postgresql://localhost:5432/user
+  #     username: postgres-user
+  #     password: postgres-password
+  #     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate.ddl-auto: none
     show-sql: true

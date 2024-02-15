@@ -11,9 +11,13 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "users")
-@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
-@SQLRestriction("deleted=false")
+// @Table(name = "users")
+// @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
+// @SQLRestriction("deleted=false")
+
+@Table(name = "USERS")
+@SQLDelete(sql = "UPDATE USERS SET DELETED = true WHERE id=?")
+@SQLRestriction("DELETED=false")
 public class User {
 
     @Id
@@ -31,7 +35,8 @@ public class User {
     @Nullable
     // @Enumerated(EnumType.ORDINAL)
     @Enumerated(EnumType.STRING)
-    @Column(name = "gender", columnDefinition = "bit")
+    // @Column(name = "gender", columnDefinition = "bit")
+    @Column(name = "GENDER", columnDefinition = "bit")
     // @Convert(converter = GenderConverter.class)
     private Gender gender;
 
@@ -40,7 +45,8 @@ public class User {
 
     @Nullable
     @ManyToOne
-    @JoinColumn(name = "city_id")
+    // @JoinColumn(name = "city_id")
+    @JoinColumn(name = "CITY_ID")
     private City city;
 
     private String avatar_url;
@@ -57,12 +63,12 @@ public class User {
     private Timestamp deleted_at;
 
     public User() {
-        // this.id = UUID.randomUUID();
+        this.id = UUID.randomUUID();
         this.created_at = new Timestamp(System.currentTimeMillis());
     }
 
     public User(String fname, String lname, String mname, String avatar_url, String nickname, String email) {
-        // this.id = UUID.randomUUID();
+        this.id = UUID.randomUUID();
         this.fname = fname;
         this.lname = lname;
         this.mname = mname;

@@ -4,3 +4,7 @@ logging:
     org.springfaramework.orm.jpa.JpaTransactionManager: DEBUG
     org.hibernate.SQL: DEBUG
     org.hibernate.type.desriptor.sql.BasicBinder: TRACE
+
+server:
+  # port: 8008
+  port: ${PORT}

@@ -8,9 +8,12 @@ import ru.idyachenko.users.repository.UserRepository;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.context.ApplicationContext;
@@ -19,12 +22,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.lang.NonNull;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -38,23 +43,35 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.idyachenko.users.utils.TestUtils.classpathFileToString;
 
 // import java.util.UUID;
-
-// MOCKMVC (1)
-@AutoConfigureMockMvc
-@AutoConfigureWireMock(port = 0)
+// @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+// // MOCKMVC (1)
+// @AutoConfigureMockMvc
+// @AutoConfigureWireMock(port = 0)
 @ActiveProfiles("integTest-mockMvc")
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-// (3) KEYCLOAK Отключаем проверку токенов
-// @Import({ PermitAllResourceServerWebSecurityConfig.class })
+// @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+
+@SpringBootTest(webEnvironment = WebEnvironment.MOCK)
+@ExtendWith(SpringExtension.class)
 public class ModuleTest_MockMvc {
 
-        // MOCKMVC (1)
-        @Autowired
-        private MockMvc mockMvc;
+        // // MOCKMVC (1)
+        // @Autowired
+        // private MockMvc mockMvc;
 
         // (5) PostgreSQL мокаем взаимодействие с БД
-        @MockBean
-        private UserRepository repository;
+        // @MockBean
+        // private UserRepository repository;
+
+        @Autowired
+        @NonNull
+        private WebApplicationContext webApplicationContext;
+
+        private MockMvc mockMvc;
+
+        @BeforeEach
+        void init() {
+                mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        }
 
         // // (4) REST мокаем взаимодействие с REST
         // @BeforeEach
@@ -63,15 +80,6 @@ public class ModuleTest_MockMvc {
         // validationRestStub(HttpStatus.OK,
         // "lesson2/responses/validate_OK.json");
         // }
-
-        @Autowired
-        @NonNull
-        private WebApplicationContext webApplicationContext;
-
-        @BeforeEach
-        void init() {
-                mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        }
 
         @Test
         void applicationContextStartedSuccessfullyTest(ApplicationContext context) throws Exception {

@@ -1,8 +1,10 @@
 package ru.idyachenko.users;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Bean;
 import ru.idyachenko.users.entity.*;
 import ru.idyachenko.users.repository.*;
@@ -16,6 +18,9 @@ import java.util.List;
 
 @SpringBootApplication
 public class UsersApplication {
+
+	@Autowired
+	BuildProperties buildProperties;
 
 	public static void main(String[] args) {
 		SpringApplication.run(UsersApplication.class, args);
@@ -80,6 +85,16 @@ public class UsersApplication {
 				System.out.println("User subscriptions: " + subscriptionService.getUserSubscriptions(vasya.getId()));
 			}
 			;
+			System.out.println("====================================================================================");
+			System.out.println("====================================================================================");
+			System.out.println("Application properties:");
+
+			System.out.println("Name: " + buildProperties.getName());
+			System.out.println("Version: " + buildProperties.getVersion());
+			System.out.println("Build Time: " + buildProperties.getTime());
+			System.out.println("Artifact: " + buildProperties.getArtifact());
+			System.out.println("Group: " + buildProperties.getGroup());
+			System.out.println("====================================================================================");
 
 		};
 	}

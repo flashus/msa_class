@@ -1,6 +1,7 @@
 FROM openjdk:17
 RUN mkdir app/
-COPY build/libs/users-0.0.1-SNAPSHOT.jar /app/users.jar
+# RUN ls -la
+COPY build/libs/users-1.2.1-SNAPSHOT.jar /app/users.jar
 EXPOSE 8080
 ENV JAVA_OPTS=""
 WORKDIR /app
