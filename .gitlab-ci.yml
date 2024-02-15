@@ -59,6 +59,7 @@ build_artifact:
   before_script:
   # - docker login -u $REGISTRY_USER -p $REGISTRY_PASS
   - docker login -u $REGISTRY_USER -p $DOCKER_TOKEN
+  - apk update && apk add git
   # Если скрипт состоит более чем из одной команды, то удобно использовать list-форму.
   # В этой форме каждая команда записывается в отдельный элемент списка, что повышает читаемость файла:
   script:
