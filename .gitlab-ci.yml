@@ -58,7 +58,7 @@ build_artifact:
   # Доступ к ним можно оставить только администратору или владельцу проекта, что повышает безопасность:
   before_script:
   # - docker login -u $REGISTRY_USER -p $REGISTRY_PASS
-  - docker login -u $DOCKER_TOKEN
+  - docker login -u $REGISTRY_USER -p $DOCKER_TOKEN
   # Если скрипт состоит более чем из одной команды, то удобно использовать list-форму.
   # В этой форме каждая команда записывается в отдельный элемент списка, что повышает читаемость файла:
   script:
