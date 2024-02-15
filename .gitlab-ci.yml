@@ -35,7 +35,8 @@ build_app:
 run_tests:
   stage: test
   # Обратите внимание на переиспользование переменных:
-  image: openjdk:$JAVA_VERSION
+  # image: openjdk:$JAVA_VERSION
+  image: gradle:8.6-jdk$JAVA_VERSION
   script: ./gradlew check
 
 build_artifact:
