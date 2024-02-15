@@ -63,5 +63,5 @@ build_artifact:
   # Если скрипт состоит более чем из одной команды, то удобно использовать list-форму.
   # В этой форме каждая команда записывается в отдельный элемент списка, что повышает читаемость файла:
   script:
-  - docker build -t $APP_IMAGE:$APP_TAG .
-  - docker push $APP_IMAGE:$APP_TAG
+  - docker build -t $REGISTRY_USER/$APP_IMAGE:$APP_TAG .
+  - docker push $REGISTRY_USER/$APP_IMAGE:$APP_TAG
