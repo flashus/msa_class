@@ -70,10 +70,11 @@ build_artifact:
 
 deploy_artifact_dev:
   stage: deploy_dev
-  # image:
-  #   # name: bitnami/kubectl:latest
-  #   name: fluxcd/helm-operator:1:4:4
-  #   entrypoint: ['']
+  image:
+    # name: bitnami/kubectl:latest
+    # name: fluxcd/helm-operator:1:4:4
+    name: okteto/helm-installer:1.0.12
+    entrypoint: ['']
   script:
   - kubectl config get-contexts
   - kubectl config use-context flash.us/msa_class:users-k8s-agent
