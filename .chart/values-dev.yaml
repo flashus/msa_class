@@ -1,5 +1,5 @@
-namespace: &namespace users-test
-appHost: users-test.local
+namespace: &namespace idyachenko-users-dev
+appHost: idyachenko-users-dev.local
 
 apps:
   backend:
