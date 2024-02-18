@@ -71,7 +71,8 @@ build_artifact:
 deploy_artifact_dev:
   stage: deploy_dev
   image:
-    name: bitnami/kubectl:latest
+    # name: bitnami/kubectl:latest
+    name: fluxcd/helm-operator:latest
     entrypoint: ['']
   script:
   - kubectl config get-contexts
