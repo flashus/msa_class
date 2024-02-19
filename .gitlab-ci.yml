@@ -77,7 +77,7 @@ deploy_artifact_dev:
   - kubectl config get-contexts
   - kubectl config use-context flash.us/msa_class:users-k8s-agent
   - kubectl get pods
-  - cd .chart && helm install users-dev . -f values-dev.yaml
+  - cd .chart && helm upgrade users-dev . -i -f values-dev.yaml
 
 deploy_artifact_test:
   stage: deploy_test
@@ -88,4 +88,4 @@ deploy_artifact_test:
   - kubectl config get-contexts
   - kubectl config use-context flash.us/msa_class:users-k8s-agent
   - kubectl get pods
-  - cd .chart && helm install users-test . -f values-test.yaml
+  - cd .chart && helm upgrade users-test . -i -f values-test.yaml
