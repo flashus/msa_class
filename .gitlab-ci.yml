@@ -71,9 +71,7 @@ build_artifact:
 deploy_artifact_dev:
   stage: deploy_dev
   image:
-    # name: bitnami/kubectl:latest
-    # name: fluxcd/helm-operator:1:4:4
-    name: okteto/helm-installer:1.0.12
+    name: flashus/k8s_deploy:1.0.0
     entrypoint: ['']
   script:
   - kubectl config get-contexts
