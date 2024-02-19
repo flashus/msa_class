@@ -15,7 +15,7 @@ stages:
 - test
 - build_image
 - deploy_dev
-- deploy_preprod
+- deploy_test
 
 # Чтобы использовать результаты сборки на разных шагах, добавим кеш, иначе собрать артефакт с JAR-файлом, полученным на этапе build_app, нельзя:
 cache:
@@ -79,3 +79,13 @@ deploy_artifact_dev:
   - kubectl get pods
   - cd .chart && helm install users-dev . -f values-dev.yaml
 
+deploy_artifact_test:
+  stage: deploy_test
+  image:
+    name: flashus/k8s_deploy:1.0.0
+    entrypoint: ['']
+  script:
+  - kubectl config get-contexts
+  - kubectl config use-context flash.us/msa_class:users-k8s-agent
+  - kubectl get pods
+  - cd .chart && helm install users-test . -f values-test.yaml

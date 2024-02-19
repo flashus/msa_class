@@ -21,34 +21,34 @@ apps:
     container:
       image: flashus/users-backend
       # image: users-backend
-      version: v1.0.0
+      version: v1.2.1
       port: 8080
       env:
-        - name: REACT_APP_USERS_BACKEND_HOST
-          valueFrom:
-            configMapKeyRef:
-              name: users-config
-              key: userapp_backend_host
-        - name: DB_URL
-          valueFrom:
-            configMapKeyRef:
-              name: users-config
-              key: userapp_db_url
-        - name: DB_USERNAME
-          valueFrom:
-            configMapKeyRef:
-              name: users-config
-              key: userapp_db_user
-        - name: DB_PASSWORD
-          valueFrom:
-            configMapKeyRef:
-              name: users-config
-              key: userapp_db_password
-        - name: PORT
-          valueFrom:
-            configMapKeyRef:
-              name: users-config
-              key: userapp_port
+      - name: REACT_APP_USERS_BACKEND_HOST
+        valueFrom:
+          configMapKeyRef:
+            name: users-config
+            key: userapp_backend_host
+      - name: DB_URL
+        valueFrom:
+          configMapKeyRef:
+            name: users-config
+            key: userapp_db_url
+      - name: DB_USERNAME
+        valueFrom:
+          configMapKeyRef:
+            name: users-config
+            key: userapp_db_user
+      - name: DB_PASSWORD
+        valueFrom:
+          configMapKeyRef:
+            name: users-config
+            key: userapp_db_password
+      - name: PORT
+        valueFrom:
+          configMapKeyRef:
+            name: users-config
+            key: userapp_port
     service:
       port: 80
       targetPort: 8080
@@ -62,21 +62,21 @@ apps:
       version: 14
       port: 5432
       env:
-        - name: POSTGRES_DB
-          valueFrom:
-            configMapKeyRef:
-              name: users-config
-              key: userapp_db_name
-        - name: POSTGRES_USER
-          valueFrom:
-            configMapKeyRef:
-              name: users-config
-              key: userapp_db_user
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            configMapKeyRef:
-              name: users-config
-              key: userapp_db_password
+      - name: POSTGRES_DB
+        valueFrom:
+          configMapKeyRef:
+            name: users-config
+            key: userapp_db_name
+      - name: POSTGRES_USER
+        valueFrom:
+          configMapKeyRef:
+            name: users-config
+            key: userapp_db_user
+      - name: POSTGRES_PASSWORD
+        valueFrom:
+          configMapKeyRef:
+            name: users-config
+            key: userapp_db_password
     service:
       port: 5432
       targetPort: 5432
