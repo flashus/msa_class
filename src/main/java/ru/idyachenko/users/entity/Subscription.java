@@ -1,5 +1,7 @@
 package ru.idyachenko.users.entity;
 
+import java.sql.Timestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -7,8 +9,6 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.sql.Timestamp;
-import java.util.UUID;
 
 @Entity
 @Table(name = "subscriptions")
@@ -25,7 +25,8 @@ public class Subscription {
     @JoinColumn(name = "user_followed_id")
     private User userFollowed;
 
-    private Timestamp created_at;
+    @Column(name = "CREATED_AT")
+    private Timestamp createdAt;
 
     // Constructors, getters, and setters
 
@@ -41,8 +42,8 @@ public class Subscription {
         return userFollowed;
     }
 
-    public Timestamp getCreated_at() {
-        return created_at;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
     public void setUserFollowing(User userFollowing) {
@@ -53,18 +54,18 @@ public class Subscription {
         this.userFollowed = userFollowed;
     }
 
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Subscription(User userFollowing, User userFollowed) {
         this.userFollowing = userFollowing;
         this.userFollowed = userFollowed;
-        this.created_at = new Timestamp(System.currentTimeMillis());
+        this.createdAt = new Timestamp(System.currentTimeMillis());
     }
 
     public Subscription() {
-        this.created_at = new Timestamp(System.currentTimeMillis());
+        this.createdAt = new Timestamp(System.currentTimeMillis());
     }
 
     // public Subscription(SubscriptionId subscriptionId) {
@@ -75,11 +76,8 @@ public class Subscription {
 
     @Override
     public String toString() {
-        return "Subscription{" +
-                "userFollowing=" + userFollowing +
-                ", userFollowed=" + userFollowed +
-                ", created_at=" + created_at +
-                '}';
+        return "Subscription{" + "userFollowing=" + userFollowing + ", userFollowed=" + userFollowed
+                + ", created_at=" + createdAt + '}';
     }
 
     @Override
@@ -93,23 +91,30 @@ public class Subscription {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         Subscription other = (Subscription) obj;
         if (userFollowing == null) {
-            if (other.userFollowing != null)
+            if (other.userFollowing != null) {
                 return false;
-        } else if (!userFollowing.equals(other.userFollowing))
+            }
+        } else if (!userFollowing.equals(other.userFollowing)) {
             return false;
+        }
         if (userFollowed == null) {
-            if (other.userFollowed != null)
+            if (other.userFollowed != null) {
                 return false;
-        } else if (!userFollowed.equals(other.userFollowed))
+            }
+        } else if (!userFollowed.equals(other.userFollowed)) {
             return false;
+        }
         return true;
     }
 }

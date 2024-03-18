@@ -1,14 +1,21 @@
 package ru.idyachenko.users.entity;
 
-import org.hibernate.annotations.GenericGenerator;
-import jakarta.annotation.Nullable;
-import jakarta.persistence.*;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.SQLRestriction;
-
-import java.util.UUID;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.UUID;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+import jakarta.annotation.Nullable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 // @Table(name = "users")
@@ -35,8 +42,8 @@ public class User {
     @Nullable
     // @Enumerated(EnumType.ORDINAL)
     @Enumerated(EnumType.STRING)
-    // @Column(name = "gender", columnDefinition = "bit")
-    @Column(name = "GENDER", columnDefinition = "bit")
+    @Column(name = "gender", columnDefinition = "bit")
+    // @Column(name = "GENDER", columnDefinition = "bit")
     // @Convert(converter = GenderConverter.class)
     private Gender gender;
 
@@ -45,69 +52,66 @@ public class User {
 
     @Nullable
     @ManyToOne
-    // @JoinColumn(name = "city_id")
-    @JoinColumn(name = "CITY_ID")
+    @JoinColumn(name = "city_id")
+    // @JoinColumn(name = "CITY_ID")
     private City city;
 
-    private String avatar_url;
+    // @Column(name = "AVATAR_URL")
+    @Column(name = "avatar_url")
+    private String avatarUrl;
     @Nullable
     private String bio;
     private String nickname;
     private String email;
     @Nullable
     private String phone;
-    private Timestamp created_at;
+    // @Column(name = "CREATED_AT")
+    @Column(name = "created_at")
+    private Timestamp createdAt;
     @Nullable
     private Boolean deleted = Boolean.FALSE;
     @Nullable
-    private Timestamp deleted_at;
+    // @Column(name = "DELETED_AT")
+    @Column(name = "deleted_at")
+    private Timestamp deletedAt;
 
     public User() {
         this.id = UUID.randomUUID();
-        this.created_at = new Timestamp(System.currentTimeMillis());
+        this.createdAt = new Timestamp(System.currentTimeMillis());
     }
 
-    public User(String fname, String lname, String mname, String avatar_url, String nickname, String email) {
+    public User(String fname, String lname, String mname, String avatarUrl, String nickname,
+            String email) {
         this.id = UUID.randomUUID();
         this.fname = fname;
         this.lname = lname;
         this.mname = mname;
-        this.avatar_url = avatar_url;
+        this.avatarUrl = avatarUrl;
         this.nickname = nickname;
         this.email = email;
-        this.created_at = new Timestamp(System.currentTimeMillis());
+        this.createdAt = new Timestamp(System.currentTimeMillis());
     }
 
-    public User(UUID id, String fname, String lname, String mname, String avatar_url, String nickname, String email) {
+    public User(UUID id, String fname, String lname, String mname, String avatarUrl,
+            String nickname, String email) {
         this.id = id;
         this.fname = fname;
         this.lname = lname;
         this.mname = mname;
-        this.avatar_url = avatar_url;
+        this.avatarUrl = avatarUrl;
         this.nickname = nickname;
         this.email = email;
-        this.created_at = new Timestamp(System.currentTimeMillis());
+        this.createdAt = new Timestamp(System.currentTimeMillis());
     }
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", fname='" + fname + '\'' +
-                ", lname='" + lname + '\'' +
-                ", mname='" + mname + '\'' +
-                ", gender=" + gender +
-                ", bdate=" + bdate +
-                ", city=" + city +
-                ", avatar_url='" + avatar_url + '\'' +
-                ", bio='" + bio + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", created_at=" + created_at +
-                ", deleted=" + deleted +
-                ", deleted_at=" + deleted_at +
-                '}';
+        return "User{" + "id=" + id + ", fname='" + fname + '\'' + ", lname='" + lname + '\''
+                + ", mname='" + mname + '\'' + ", gender=" + gender + ", bdate=" + bdate + ", city="
+                + city + ", avatar_url='" + avatarUrl + '\'' + ", bio='" + bio + '\''
+                + ", nickname='" + nickname + '\'' + ", email='" + email + '\'' + ", phone='"
+                + phone + '\'' + ", created_at=" + createdAt + ", deleted=" + deleted
+                + ", deleted_at=" + deletedAt + '}';
     }
 
     public UUID getId() {
@@ -142,8 +146,8 @@ public class User {
         return city;
     }
 
-    public String getAvatar_url() {
-        return avatar_url;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
     @Nullable
@@ -164,8 +168,8 @@ public class User {
         return phone;
     }
 
-    public Timestamp getCreated_at() {
-        return created_at;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
     @Nullable
@@ -174,8 +178,8 @@ public class User {
     }
 
     @Nullable
-    public Timestamp getDeleted_at() {
-        return deleted_at;
+    public Timestamp getDeletedAt() {
+        return deletedAt;
     }
 
     public void setId(UUID id) {
@@ -207,8 +211,8 @@ public class User {
         this.city = city;
     }
 
-    public void setAvatar_url(String avatar_url) {
-        this.avatar_url = avatar_url;
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
     public void setBio(@Nullable String bio) {
@@ -227,15 +231,15 @@ public class User {
         this.phone = phone;
     }
 
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
     public void setDeleted(@Nullable Boolean deleted) {
         this.deleted = deleted;
     }
 
-    public void setDeleted_at(@Nullable Timestamp deleted_at) {
-        this.deleted_at = deleted_at;
+    public void setDeletedAt(@Nullable Timestamp deletedAt) {
+        this.deletedAt = deletedAt;
     }
 }

@@ -1,16 +1,13 @@
 package ru.idyachenko.users.service;
 
-import org.springframework.http.HttpHeaders;
+import java.util.List;
+import java.util.UUID;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import ru.idyachenko.users.entity.City;
 import ru.idyachenko.users.repository.CityRepository;
-
-import java.util.List;
-import java.util.UUID;
 
 @Service
 public class CityService {
@@ -38,7 +35,8 @@ public class CityService {
     }
 
     public City getCity(@NonNull UUID id) {
-        return cityRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return cityRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     // public ResponseEntity<String> updateCity(City city, @NonNull UUID id) {

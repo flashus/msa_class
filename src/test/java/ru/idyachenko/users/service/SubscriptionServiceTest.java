@@ -7,13 +7,11 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,9 +20,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
-
 import jakarta.persistence.PersistenceException;
-import ru.idyachenko.users.entity.Subscription;
 import ru.idyachenko.users.entity.Subscription;
 import ru.idyachenko.users.entity.SubscriptionId;
 import ru.idyachenko.users.entity.User;
@@ -33,7 +29,8 @@ import ru.idyachenko.users.repository.SubscriptionRepository;
 public class SubscriptionServiceTest {
 
     private SubscriptionRepository subscriptionRepository = mock(SubscriptionRepository.class);
-    private SubscriptionService subscriptionService = new SubscriptionService(subscriptionRepository);
+    private SubscriptionService subscriptionService =
+            new SubscriptionService(subscriptionRepository);
 
     private Subscription subscription;
     private Subscription subscription2;
@@ -50,10 +47,12 @@ public class SubscriptionServiceTest {
         userId1 = UUID.randomUUID();
         userId2 = UUID.randomUUID();
 
-        user1 = new User(userId1, "Vasya", "Petrov", "Ivanovich", "http://", "vasya", "vasya@mail.com");
+        user1 = new User(userId1, "Vasya", "Petrov", "Ivanovich", "http://", "vasya",
+                "vasya@mail.com");
         // savedUser = new User(id, "Vasya", "Petrov", "Ivanovich", "http://", "vasya",
         // "vasya@mail.com");
-        user2 = new User(userId2, "Innokent", "Smirnoff", "Kentovich", "http://", "vasya", "vasya@mail.com");
+        user2 = new User(userId2, "Innokent", "Smirnoff", "Kentovich", "http://", "vasya",
+                "vasya@mail.com");
 
         // subscriptionId = new SubscriptionId(userId1, userId2);
         // subscriptionId2 = new SubscriptionId(userId2, userId1);
@@ -67,9 +66,7 @@ public class SubscriptionServiceTest {
     @Test
     public void testGetSubscriptions_ReturnsListOfSubscriptions() {
         // Given
-        List<Subscription> expectedSubscriptions = Arrays.asList(
-                subscription,
-                subscription2);
+        List<Subscription> expectedSubscriptions = Arrays.asList(subscription, subscription2);
         when(subscriptionRepository.findAll()).thenReturn(expectedSubscriptions);
 
         // When
@@ -100,13 +97,14 @@ public class SubscriptionServiceTest {
         // when
         ResponseEntity<String> response = subscriptionService.createSubscription(subscription);
         HttpHeaders headers = response.getHeaders();
-        String expectedResult = String.format(
+        final String expectedResult = String.format(
                 "Subscription added to the database with id (userFollowing=%s, userFollowed=%s)",
                 savedSubscription.getUserFollowing(), savedSubscription.getUserFollowed());
 
         // then
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(String.format("/subscriptions/%s", savedSubscription.getId()), headers.getFirst("Location"));
+        assertEquals(String.format("/subscriptions/%s", savedSubscription.getId()),
+                headers.getFirst("Location"));
         assertEquals(savedSubscription.getId().toString(), headers.getFirst("X-UserId"));
         assertEquals(expectedResult, response.getBody());
 
@@ -129,7 +127,8 @@ public class SubscriptionServiceTest {
     @Test
     void getSubscription_WhenSubscriptionExists_ReturnSubscription() {
         // given
-        when(subscriptionRepository.findById(subscription.getId())).thenReturn(Optional.of(subscription));
+        when(subscriptionRepository.findById(subscription.getId()))
+                .thenReturn(Optional.of(subscription));
 
         // when
         Subscription result = subscriptionService.getSubscription(subscription.getId());
@@ -144,7 +143,8 @@ public class SubscriptionServiceTest {
         when(subscriptionRepository.findById(subscription.getId())).thenReturn(Optional.empty());
 
         // then
-        assertThrows(ResponseStatusException.class, () -> subscriptionService.getSubscription(subscription.getId()));
+        assertThrows(ResponseStatusException.class,
+                () -> subscriptionService.getSubscription(subscription.getId()));
     }
 
     // update
@@ -156,15 +156,18 @@ public class SubscriptionServiceTest {
         when(subscriptionRepository.save(subscription)).thenReturn(savedSubscription);
 
         // when
-        ResponseEntity<String> response = subscriptionService.updateSubscription(subscription, subscription.getId());
+        ResponseEntity<String> response =
+                subscriptionService.updateSubscription(subscription, subscription.getId());
         HttpHeaders headers = response.getHeaders();
-        String desc = String.format("Subscription with id (userFollowing=%s, userFollowed=%s) successfully updated",
+        final String desc = String.format(
+                "Subscription with id (userFollowing=%s, userFollowed=%s) successfully updated",
                 savedSubscription.getUserFollowing(), savedSubscription.getUserFollowed());
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
-        assertEquals(String.format("/subscriptions/%s", subscription.getId()), headers.getFirst("Location"));
+        assertEquals(String.format("/subscriptions/%s", subscription.getId()),
+                headers.getFirst("Location"));
         assertEquals(subscription.getId().toString(), headers.getFirst("X-UserId"));
 
         assertEquals(desc, response.getBody());
@@ -183,7 +186,8 @@ public class SubscriptionServiceTest {
     @Test
     public void testUpdateSubscription_InvalidSubscriptionId() {
         UUID id2 = UUID.randomUUID();
-        SubscriptionId subsctiptionId3 = new SubscriptionId(id2, subscription.getId().getUserFollowed());
+        SubscriptionId subsctiptionId3 =
+                new SubscriptionId(id2, subscription.getId().getUserFollowed());
         when(subscriptionRepository.save(subscription)).thenReturn(savedSubscription);
         when(subscriptionRepository.existsById(subsctiptionId3)).thenReturn(true);
 
@@ -209,13 +213,16 @@ public class SubscriptionServiceTest {
         when(subscriptionRepository.existsById(subscription.getId())).thenReturn(true);
 
         // when
-        ResponseEntity<String> response = subscriptionService.deleteSubscription(subscription.getId());
+        ResponseEntity<String> response =
+                subscriptionService.deleteSubscription(subscription.getId());
         HttpHeaders headers = response.getHeaders();
-        String desc = String.format("Subscription with id = %s successfully deleted", subscription.getId());
+        final String desc = String.format("Subscription with id = %s successfully deleted",
+                subscription.getId());
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(String.format("/subscriptions/%s", subscription.getId()), headers.getFirst("Location"));
+        assertEquals(String.format("/subscriptions/%s", subscription.getId()),
+                headers.getFirst("Location"));
         assertEquals(subscription.getId().toString(), headers.getFirst("X-UserId"));
 
         verify(subscriptionRepository).deleteById(subscription.getId());

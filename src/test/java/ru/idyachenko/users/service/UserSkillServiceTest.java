@@ -7,13 +7,11 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,12 +20,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
-
 import jakarta.persistence.PersistenceException;
-import ru.idyachenko.users.entity.UserSkill;
-import ru.idyachenko.users.entity.UserSkillId;
 import ru.idyachenko.users.entity.Skill;
 import ru.idyachenko.users.entity.User;
+import ru.idyachenko.users.entity.UserSkill;
 import ru.idyachenko.users.repository.UserSkillRepository;
 
 public class UserSkillServiceTest {
@@ -52,8 +48,10 @@ public class UserSkillServiceTest {
         userId1 = UUID.randomUUID();
         userId2 = UUID.randomUUID();
 
-        user1 = new User(userId1, "Vasya", "Petrov", "Ivanovich", "http://", "vasya", "vasya@mail.com");
-        user2 = new User(userId2, "Innokent", "Smirnoff", "Kentovich", "http://", "vasya", "vasya@mail.com");
+        user1 = new User(userId1, "Vasya", "Petrov", "Ivanovich", "http://", "vasya",
+                "vasya@mail.com");
+        user2 = new User(userId2, "Innokent", "Smirnoff", "Kentovich", "http://", "vasya",
+                "vasya@mail.com");
 
         // userSkillId = new UserSkillId(userId1, userId2);
         // userSkillId2 = new UserSkillId(userId2, userId1);
@@ -69,9 +67,7 @@ public class UserSkillServiceTest {
     @Test
     public void testGetUserSkills_ReturnsListOfUserSkills() {
         // Given
-        List<UserSkill> expectedUserSkills = Arrays.asList(
-                userSkill,
-                userSkill2);
+        List<UserSkill> expectedUserSkills = Arrays.asList(userSkill, userSkill2);
         when(userSkillRepository.findByUserId(userId1)).thenReturn(expectedUserSkills);
 
         // When
@@ -102,12 +98,13 @@ public class UserSkillServiceTest {
         // when
         ResponseEntity<String> response = userSkillService.createUserSkill(userSkill);
         HttpHeaders headers = response.getHeaders();
-        String expectedResult = String.format("User/Skill %s/%s added to the database", savedUserSkill.getUser(),
-                savedUserSkill.getSkill());
+        final String expectedResult = String.format("User/Skill %s/%s added to the database",
+                savedUserSkill.getUser(), savedUserSkill.getSkill());
 
         // then
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(String.format("/user-skills/%s", savedUserSkill.getId()), headers.getFirst("Location"));
+        assertEquals(String.format("/user-skills/%s", savedUserSkill.getId()),
+                headers.getFirst("Location"));
         assertEquals(savedUserSkill.getId().toString(), headers.getFirst("X-UserId"));
         assertEquals(expectedResult, response.getBody());
 
@@ -145,7 +142,8 @@ public class UserSkillServiceTest {
         when(userSkillRepository.findById(userSkill.getId())).thenReturn(Optional.empty());
 
         // then
-        assertThrows(ResponseStatusException.class, () -> userSkillService.getUserSkill(userSkill.getId()));
+        assertThrows(ResponseStatusException.class,
+                () -> userSkillService.getUserSkill(userSkill.getId()));
     }
 
     // // update
@@ -217,11 +215,13 @@ public class UserSkillServiceTest {
         // when
         ResponseEntity<String> response = userSkillService.deleteUserSkill(userSkill.getId());
         HttpHeaders headers = response.getHeaders();
-        String desc = String.format("User/Skill %s/%s deleted", userSkill.getUser().getId(), userSkill.getSkill());
+        final String desc = String.format("User/Skill %s/%s deleted", userSkill.getUser().getId(),
+                userSkill.getSkill());
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(String.format("/user-skills/%s", userSkill.getId()), headers.getFirst("Location"));
+        assertEquals(String.format("/user-skills/%s", userSkill.getId()),
+                headers.getFirst("Location"));
         assertEquals(userSkill.getId().toString(), headers.getFirst("X-UserId"));
 
         verify(userSkillRepository).deleteById(userSkill.getId());

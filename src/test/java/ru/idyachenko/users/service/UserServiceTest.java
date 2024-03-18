@@ -1,33 +1,28 @@
 package ru.idyachenko.users.service;
 
-import jakarta.persistence.PersistenceException;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.lang.NonNull;
-import org.springframework.web.server.ResponseStatusException;
-
-import ru.idyachenko.users.controller.UserController;
-import ru.idyachenko.users.entity.User;
-import ru.idyachenko.users.repository.UserRepository;
-
-import java.util.UUID;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.server.ResponseStatusException;
+import jakarta.persistence.PersistenceException;
+import ru.idyachenko.users.entity.User;
+import ru.idyachenko.users.repository.UserRepository;
 
 class UserServiceTest {
 
@@ -42,14 +37,14 @@ class UserServiceTest {
     void setUp() {
         id = UUID.randomUUID();
         user = new User("Vasya", "Petrov", "Ivanovich", "http://", "vasya", "vasya@mail.com");
-        savedUser = new User(id, "Vasya", "Petrov", "Ivanovich", "http://", "vasya", "vasya@mail.com");
+        savedUser =
+                new User(id, "Vasya", "Petrov", "Ivanovich", "http://", "vasya", "vasya@mail.com");
         user2 = new User("Innokent", "Smirnoff", "Kentovich", "http://", "vasya", "vasya@mail.com");
 
     }
 
     @AfterEach
-    void tearDown() {
-    }
+    void tearDown() {}
 
     @Test
     void createUserSuccess() {
@@ -66,7 +61,8 @@ class UserServiceTest {
         assertEquals(String.format("/users/%s", id), headers.getFirst("Location"));
         assertEquals(id.toString(), headers.getFirst("X-UserId"));
 
-        String expectedResult = String.format("Пользователь %s добавлен в базу с id = %s", user.getLname(), id);
+        String expectedResult =
+                String.format("Пользователь %s добавлен в базу с id = %s", user.getLname(), id);
 
         assertEquals(expectedResult, response.getBody());
 
@@ -107,8 +103,8 @@ class UserServiceTest {
 
     @Test
     public void testUpdateUser_SuccessfulUpdate() {
-        User user = new User(id, "Vasya", "Petrov", "Ivanovich", "http://", "vasya",
-                "vasya@mail.com");
+        User user =
+                new User(id, "Vasya", "Petrov", "Ivanovich", "http://", "vasya", "vasya@mail.com");
 
         when(userRepository.existsById(id)).thenReturn(true);
         when(userRepository.save(user)).thenReturn(savedUser);

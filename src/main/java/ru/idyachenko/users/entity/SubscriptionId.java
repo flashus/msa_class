@@ -32,8 +32,7 @@ public class SubscriptionId implements Serializable {
         this.userFollowed = userFollowed;
     }
 
-    public SubscriptionId() {
-    }
+    public SubscriptionId() {}
 
     @Override
     public int hashCode() {
@@ -46,31 +45,36 @@ public class SubscriptionId implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         SubscriptionId other = (SubscriptionId) obj;
         if (userFollowing == null) {
-            if (other.userFollowing != null)
+            if (other.userFollowing != null) {
                 return false;
-        } else if (!userFollowing.equals(other.userFollowing))
+            }
+        } else if (!userFollowing.equals(other.userFollowing)) {
             return false;
+        }
         if (userFollowed == null) {
-            if (other.userFollowed != null)
+            if (other.userFollowed != null) {
                 return false;
-        } else if (!userFollowed.equals(other.userFollowed))
+            }
+        } else if (!userFollowed.equals(other.userFollowed)) {
             return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "SubscriptionId{" +
-                "userFollowing=" + userFollowing +
-                ", userFollowed=" + userFollowed +
-                '}';
+        return "SubscriptionId{" + "userFollowing=" + userFollowing + ", userFollowed="
+                + userFollowed + '}';
     }
 }

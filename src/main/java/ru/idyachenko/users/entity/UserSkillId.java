@@ -32,15 +32,11 @@ public class UserSkillId implements Serializable {
         this.user = user;
     }
 
-    public UserSkillId() {
-    }
+    public UserSkillId() {}
 
     @Override
     public String toString() {
-        return "UserSkillId{" +
-                "user=" + user +
-                ", skill=" + skill +
-                '}';
+        return "UserSkillId{" + "user=" + user + ", skill=" + skill + '}';
     }
 
     @Override
@@ -54,23 +50,30 @@ public class UserSkillId implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         UserSkillId other = (UserSkillId) obj;
         if (skill == null) {
-            if (other.skill != null)
+            if (other.skill != null) {
                 return false;
-        } else if (!skill.equals(other.skill))
+            }
+        } else if (!skill.equals(other.skill)) {
             return false;
+        }
         if (user == null) {
-            if (other.user != null)
+            if (other.user != null) {
                 return false;
-        } else if (!user.equals(other.user))
+            }
+        } else if (!user.equals(other.user)) {
             return false;
+        }
         return true;
     }
 

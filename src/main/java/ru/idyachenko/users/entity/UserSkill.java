@@ -46,15 +46,11 @@ public class UserSkill {
         this.user = user;
     }
 
-    public UserSkill() {
-    }
+    public UserSkill() {}
 
     @Override
     public String toString() {
-        return "UserSkill{" +
-                "user=" + user +
-                ", skill=" + skill +
-                '}';
+        return "UserSkill{" + "user=" + user + ", skill=" + skill + '}';
     }
 
     @Override
@@ -68,23 +64,30 @@ public class UserSkill {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         UserSkill other = (UserSkill) obj;
         if (skill == null) {
-            if (other.skill != null)
+            if (other.skill != null) {
                 return false;
-        } else if (!skill.equals(other.skill))
+            }
+        } else if (!skill.equals(other.skill)) {
             return false;
+        }
         if (user == null) {
-            if (other.user != null)
+            if (other.user != null) {
                 return false;
-        } else if (!user.equals(other.user))
+            }
+        } else if (!user.equals(other.user)) {
             return false;
+        }
         return true;
     }
 

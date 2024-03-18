@@ -7,23 +7,18 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
-
 import jakarta.persistence.PersistenceException;
 import ru.idyachenko.users.entity.Skill;
 import ru.idyachenko.users.repository.SkillRepository;
@@ -90,8 +85,8 @@ public class SkillServiceTest {
         // when
         ResponseEntity<String> response = skillService.createSkill(skill);
         HttpHeaders headers = response.getHeaders();
-        String expectedResult = String.format("Skill %s added to the database with id = %s", savedSkill.getSkillName(),
-                savedSkill.getId());
+        final String expectedResult = String.format("Skill %s added to the database with id = %s",
+                savedSkill.getSkillName(), savedSkill.getId());
 
         // then
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -147,8 +142,8 @@ public class SkillServiceTest {
         // when
         ResponseEntity<String> response = skillService.updateSkill(skill, id);
         HttpHeaders headers = response.getHeaders();
-        String desc = String.format("Skill %s successfully updated",
-                savedSkill.getSkillName());
+        final String desc =
+                String.format("Skill %s successfully updated", savedSkill.getSkillName());
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -199,7 +194,7 @@ public class SkillServiceTest {
         // when
         ResponseEntity<String> response = skillService.deleteSkill(id);
         HttpHeaders headers = response.getHeaders();
-        String desc = String.format("Skill with id = %s successfully deleted", id);
+        final String desc = String.format("Skill with id = %s successfully deleted", id);
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode());
