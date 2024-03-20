@@ -242,4 +242,143 @@ public class User {
     public void setDeletedAt(@Nullable Timestamp deletedAt) {
         this.deletedAt = deletedAt;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((fname == null) ? 0 : fname.hashCode());
+        result = prime * result + ((lname == null) ? 0 : lname.hashCode());
+        result = prime * result + ((mname == null) ? 0 : mname.hashCode());
+        result = prime * result + ((gender == null) ? 0 : gender.hashCode());
+        result = prime * result + ((bdate == null) ? 0 : bdate.hashCode());
+        result = prime * result + ((city == null) ? 0 : city.hashCode());
+        result = prime * result + ((avatarUrl == null) ? 0 : avatarUrl.hashCode());
+        result = prime * result + ((bio == null) ? 0 : bio.hashCode());
+        result = prime * result + ((nickname == null) ? 0 : nickname.hashCode());
+        result = prime * result + ((email == null) ? 0 : email.hashCode());
+        result = prime * result + ((phone == null) ? 0 : phone.hashCode());
+        result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
+        result = prime * result + ((deleted == null) ? 0 : deleted.hashCode());
+        result = prime * result + ((deletedAt == null) ? 0 : deletedAt.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        User other = (User) obj;
+        if (id == null) {
+            if (other.id != null) {
+                return false;
+            }
+        } else if (!id.equals(other.id)) {
+            return false;
+        }
+        if (fname == null) {
+            if (other.fname != null) {
+                return false;
+            }
+        } else if (!fname.equals(other.fname)) {
+            return false;
+        }
+        if (lname == null) {
+            if (other.lname != null) {
+                return false;
+            }
+        } else if (!lname.equals(other.lname)) {
+            return false;
+        }
+        if (mname == null) {
+            if (other.mname != null) {
+                return false;
+            }
+        } else if (!mname.equals(other.mname)) {
+            return false;
+        }
+        if (gender != other.gender) {
+            return false;
+        }
+        if (bdate == null) {
+            if (other.bdate != null) {
+                return false;
+            }
+        } else if (!bdate.equals(other.bdate)) {
+            return false;
+        }
+        if (city == null) {
+            if (other.city != null) {
+                return false;
+            }
+        } else if (!city.equals(other.city)) {
+            return false;
+        }
+        if (avatarUrl == null) {
+            if (other.avatarUrl != null) {
+                return false;
+            }
+        } else if (!avatarUrl.equals(other.avatarUrl)) {
+            return false;
+        }
+        if (bio == null) {
+            if (other.bio != null) {
+                return false;
+            }
+        } else if (!bio.equals(other.bio)) {
+            return false;
+        }
+        if (nickname == null) {
+            if (other.nickname != null) {
+                return false;
+            }
+        } else if (!nickname.equals(other.nickname)) {
+            return false;
+        }
+        if (email == null) {
+            if (other.email != null) {
+                return false;
+            }
+        } else if (!email.equals(other.email)) {
+            return false;
+        }
+        if (phone == null) {
+            if (other.phone != null) {
+                return false;
+            }
+        } else if (!phone.equals(other.phone)) {
+            return false;
+        }
+        if (createdAt == null) {
+            if (other.createdAt != null) {
+                return false;
+            }
+        } else if (!createdAt.equals(other.createdAt)) {
+            return false;
+        }
+        if (deleted == null) {
+            if (other.deleted != null) {
+                return false;
+            }
+        } else if (!deleted.equals(other.deleted)) {
+            return false;
+        }
+        if (deletedAt == null) {
+            if (other.deletedAt != null) {
+                return false;
+            }
+        } else if (!deletedAt.equals(other.deletedAt)) {
+            return false;
+        }
+        return true;
+    }
+
 }
