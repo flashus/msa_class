@@ -128,8 +128,7 @@ stress_test:
   image: direvius/yandex-tank:latest
   # script:
   # - cd .load && tank run
-  script:
-  - chmod +x ./load/yandextank.sh && ./load/yandextank.sh
+  script: chmod +x ./load/yandextank.sh && ./load/yandextank.sh
   artifacts:
     paths:
     - yandextank_report
