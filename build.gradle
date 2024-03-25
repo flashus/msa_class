@@ -6,7 +6,29 @@ plugins {
 	id 'nebula.integtest' version '9.6.2'
     id 'com.dorongold.task-tree' version '2.1.1'
     id 'checkstyle'
+    // id 'org.sonarqube' version '3.4.0.2513'
+    // id 'jacoco'
 }
+
+// // {sonarqube
+// jacocoTestReport {
+//     reports {
+//         xml.enabled true
+//     }
+// }
+// test.finalizedBy jacocoTestReport
+// tasks.named('sonarqube').configure {
+//     dependsOn test
+// }
+
+// sonarqube {
+//     properties {
+//         property 'sonar.projectKey', 'idyachenko_users'
+//         property 'sonar.organization', 'idyachenko' 
+//     }
+// }
+
+// // }sonarqube
 
 // apply plugin: 'co.uzzu.dotenv.gradle'
 
@@ -75,17 +97,31 @@ tasks.named('test') {
 }
 
 test {
-    // environment "DB_URL", "jdbc:postgresql://localhost:5432/social"
-	environment "DB_URL", "jdbc:postgresql://localhost:5400/social"
-    environment "DB_USERNAME", "pguser"
-    environment "DB_PASSWORD", "pgpass"
-	environment "PORT", "8008"	
+    environment "DB_URL", "jdbc:postgresql://localhost:5432/user"
+	// environment "DB_URL", "jdbc:postgresql://localhost:5400/social"
+    environment "DB_USERNAME", "postgres-user"
+    environment "DB_PASSWORD", "postgres-password"
+	environment "PORT", "8080"	
+
+    afterSuite { desc, result ->
+        println "Test: ${desc.className} ${desc.displayName}, result: ${result.resultType}"
+    }
+}
+
+tasks.named('integrationTest') {
+	useJUnitPlatform()
+}
+
+integrationTest {
+    afterSuite { desc, result ->
+        println "Test: ${desc.className} ${desc.displayName}, result: ${result.resultType}"
+    }
 }
 
 bootRun {
-    // environment "DB_URL", "jdbc:postgresql://localhost:5432/social"
-	environment "DB_URL", "jdbc:postgresql://localhost:5400/social"
-    environment "DB_USERNAME", "pguser"
-    environment "DB_PASSWORD", "pgpass"
-	environment "PORT", "8008"	
+    environment "DB_URL", "jdbc:postgresql://localhost:5432/user"
+	// environment "DB_URL", "jdbc:postgresql://localhost:5400/social"
+    environment "DB_USERNAME", "postgres-user"
+    environment "DB_PASSWORD", "postgres-password"
+	environment "PORT", "8080"	
 }

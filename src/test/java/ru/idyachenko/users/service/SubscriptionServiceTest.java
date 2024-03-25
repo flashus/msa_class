@@ -22,15 +22,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
 import jakarta.persistence.PersistenceException;
 import ru.idyachenko.users.entity.Subscription;
-import ru.idyachenko.users.entity.SubscriptionId;
 import ru.idyachenko.users.entity.User;
 import ru.idyachenko.users.repository.SubscriptionRepository;
+import ru.idyachenko.users.repository.UserRepository;
 
 public class SubscriptionServiceTest {
 
+    private UserRepository userRepository = mock(UserRepository.class);
+    private UserService userService = new UserService(userRepository);
+
     private SubscriptionRepository subscriptionRepository = mock(SubscriptionRepository.class);
+
     private SubscriptionService subscriptionService =
-            new SubscriptionService(subscriptionRepository);
+            new SubscriptionService(subscriptionRepository, userService);
 
     private Subscription subscription;
     private Subscription subscription2;
@@ -123,6 +127,33 @@ public class SubscriptionServiceTest {
         Assertions.assertThrows(PersistenceException.class, executable);
     }
 
+
+    @Test
+    void createSubscriptionById_shouldReturnCreatedResponse() {
+        // given
+        when(subscriptionRepository.save(subscription)).thenReturn(savedSubscription);
+        when(userRepository.findById(userId1)).thenReturn(Optional.of(user1));
+        when(userRepository.findById(userId2)).thenReturn(Optional.of(user2));
+
+        // when
+        ResponseEntity<String> response =
+                subscriptionService.createSubscription(subscription.getId());
+        HttpHeaders headers = response.getHeaders();
+        final String expectedResult = String.format(
+                "Subscription added to the database with id (userFollowing=%s, userFollowed=%s)",
+                savedSubscription.getUserFollowing(), savedSubscription.getUserFollowed());
+
+        // then
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(String.format("/subscriptions/%s", savedSubscription.getId()),
+                headers.getFirst("Location"));
+        assertEquals(savedSubscription.getId().toString(), headers.getFirst("X-UserId"));
+        assertEquals(expectedResult, response.getBody());
+
+        verify(subscriptionRepository, times(1)).save(subscription);
+    }
+
+
     // get
     @Test
     void getSubscription_WhenSubscriptionExists_ReturnSubscription() {
@@ -148,53 +179,53 @@ public class SubscriptionServiceTest {
     }
 
     // update
-    @Test
-    public void testUpdateSubscription_SuccessfulUpdate() {
-        // subscription = new Subscription(id, "Subscription 1");
+    // @Test
+    // public void testUpdateSubscription_SuccessfulUpdate() {
+    // // subscription = new Subscription(id, "Subscription 1");
 
-        when(subscriptionRepository.existsById(subscription.getId())).thenReturn(true);
-        when(subscriptionRepository.save(subscription)).thenReturn(savedSubscription);
+    // when(subscriptionRepository.existsById(subscription.getId())).thenReturn(true);
+    // when(subscriptionRepository.save(subscription)).thenReturn(savedSubscription);
 
-        // when
-        ResponseEntity<String> response =
-                subscriptionService.updateSubscription(subscription, subscription.getId());
-        HttpHeaders headers = response.getHeaders();
-        final String desc = String.format(
-                "Subscription with id (userFollowing=%s, userFollowed=%s) successfully updated",
-                savedSubscription.getUserFollowing(), savedSubscription.getUserFollowed());
+    // // when
+    // ResponseEntity<String> response =
+    // subscriptionService.updateSubscription(subscription, subscription.getId());
+    // HttpHeaders headers = response.getHeaders();
+    // final String desc = String.format(
+    // "Subscription with id (userFollowing=%s, userFollowed=%s) successfully updated",
+    // savedSubscription.getUserFollowing(), savedSubscription.getUserFollowed());
 
-        // then
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+    // // then
+    // assertEquals(HttpStatus.OK, response.getStatusCode());
 
-        assertEquals(String.format("/subscriptions/%s", subscription.getId()),
-                headers.getFirst("Location"));
-        assertEquals(subscription.getId().toString(), headers.getFirst("X-UserId"));
+    // assertEquals(String.format("/subscriptions/%s", subscription.getId()),
+    // headers.getFirst("Location"));
+    // assertEquals(subscription.getId().toString(), headers.getFirst("X-UserId"));
 
-        assertEquals(desc, response.getBody());
-    }
+    // assertEquals(desc, response.getBody());
+    // }
 
-    @Test
-    public void testUpdateSubscription_SubscriptionNotFound() {
+    // @Test
+    // public void testUpdateSubscription_SubscriptionNotFound() {
 
-        when(subscriptionRepository.existsById(subscription.getId())).thenReturn(false);
+    // when(subscriptionRepository.existsById(subscription.getId())).thenReturn(false);
 
-        assertThrows(ResponseStatusException.class, () -> {
-            subscriptionService.updateSubscription(subscription, subscription.getId());
-        });
-    }
+    // assertThrows(ResponseStatusException.class, () -> {
+    // subscriptionService.updateSubscription(subscription, subscription.getId());
+    // });
+    // }
 
-    @Test
-    public void testUpdateSubscription_InvalidSubscriptionId() {
-        UUID id2 = UUID.randomUUID();
-        SubscriptionId subsctiptionId3 =
-                new SubscriptionId(id2, subscription.getId().getUserFollowed());
-        when(subscriptionRepository.save(subscription)).thenReturn(savedSubscription);
-        when(subscriptionRepository.existsById(subsctiptionId3)).thenReturn(true);
+    // @Test
+    // public void testUpdateSubscription_InvalidSubscriptionId() {
+    // UUID id2 = UUID.randomUUID();
+    // SubscriptionId subsctiptionId3 =
+    // new SubscriptionId(id2, subscription.getId().getUserFollowed());
+    // when(subscriptionRepository.save(subscription)).thenReturn(savedSubscription);
+    // when(subscriptionRepository.existsById(subsctiptionId3)).thenReturn(true);
 
-        assertThrows(ResponseStatusException.class, () -> {
-            subscriptionService.updateSubscription(savedSubscription, subsctiptionId3);
-        });
-    }
+    // assertThrows(ResponseStatusException.class, () -> {
+    // subscriptionService.updateSubscription(savedSubscription, subsctiptionId3);
+    // });
+    // }
 
     // @Test
     // public void testUpdateSubscription_NullSubscriptionId() {

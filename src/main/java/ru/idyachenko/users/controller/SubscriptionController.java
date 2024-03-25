@@ -32,12 +32,18 @@ public class SubscriptionController {
 
     @GetMapping(path = "/{userId}")
     List<Subscription> getUserSubscriptions(@PathVariable @NonNull UUID userId) {
-        return subscriptionService.getUserSubscriptions(userId);
+        List<Subscription> userSubscriptions = subscriptionService.getUserSubscriptions(userId);
+        return userSubscriptions;
     }
 
+    // @PostMapping
+    // ResponseEntity<String> createSubscription(@RequestBody @NonNull Subscription subscription) {
+    // return subscriptionService.createSubscription(subscription);
+    // }
+
     @PostMapping
-    ResponseEntity<String> createSubscription(@RequestBody @NonNull Subscription subscription) {
-        return subscriptionService.createSubscription(subscription);
+    ResponseEntity<String> createSubscription(@RequestBody @NonNull SubscriptionId subscriptionId) {
+        return subscriptionService.createSubscription(subscriptionId);
     }
 
     @GetMapping(path = "/{userFollowingId}/{userFollowedId}")
@@ -47,13 +53,13 @@ public class SubscriptionController {
         return subscriptionService.getSubscription(subscriptionId);
     }
 
-    @PutMapping(path = "/{userFollowingId}/{userFollowedId}")
-    ResponseEntity<String> updateSubscription(@RequestBody Subscription subscription,
-            @PathVariable @NonNull UUID userFollowingId,
-            @PathVariable @NonNull UUID userFollowedId) {
-        return subscriptionService.updateSubscription(subscription, userFollowingId,
-                userFollowedId);
-    }
+    // @PutMapping(path = "/{userFollowingId}/{userFollowedId}")
+    // ResponseEntity<String> updateSubscription(@RequestBody Subscription subscription,
+    // @PathVariable @NonNull UUID userFollowingId,
+    // @PathVariable @NonNull UUID userFollowedId) {
+    // return subscriptionService.updateSubscription(subscription, userFollowingId,
+    // userFollowedId);
+    // }
 
     @DeleteMapping(path = "/{userFollowingId}/{userFollowedId}")
     ResponseEntity<String> deleteSubscription(@PathVariable @NonNull UUID userFollowingId,

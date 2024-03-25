@@ -164,7 +164,7 @@ class UserServiceTest {
         HttpHeaders headers = response.getHeaders();
 
         // then
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
 
         assertEquals(String.format("/users/%s", id), headers.getFirst("Location"));
         assertEquals(id.toString(), headers.getFirst("X-UserId"));

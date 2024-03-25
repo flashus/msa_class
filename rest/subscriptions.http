@@ -1,0 +1,56 @@
+# create user vasya
+# @name createVasya
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+"fname": "NewVasya",
+"lname": "Okhlomov",
+"mname": "Ivanovich",
+"avatarUrl": "http://",
+"nickname": "vasya",
+"email": "vasya@mail.com"
+}
+
+@vasyaId = {{createVasya.response.headers.X-UserId}}
+###
+
+# create user vasya2
+# @name createVasya2
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+"fname": "NewVasya2",
+"lname": "Okhlomov2",
+"mname": "Ivanovich2",
+"avatarUrl": "http://",
+"nickname": "vasya2",
+"email": "vasya2@mail.com"
+}
+
+@vasya2Id = {{createVasya2.response.headers.X-UserId}}
+
+###
+
+# get vasya
+GET http://localhost:8080/users/{{vasyaId}}
+
+###
+
+# create Subscription vasya->vasya2
+# @name subscriptionVasyaVasya2
+POST http://localhost:8080/subscriptions
+Content-Type: application/json
+
+{
+"userFollowing": "{{vasyaId}}",
+"userFollowed": "{{vasya2Id}}"
+}
+
+@vasya2Id = {{createVasya2.response.headers.X-UserId}}
+
+###
+
+# get vasya subscr
+GET http://localhost:8080/subscriptions/{{vasyaId}}

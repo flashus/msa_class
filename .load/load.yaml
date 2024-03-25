@@ -1,0 +1,24 @@
+phantom:
+  ammo_type: phantom
+  # address: 192.168.1.48:8080
+  address: users-backend-service:8080 #http://host.docker.internal:8080 #адрес, где развернут сервер
+  # если локально, то из докера можно достучаться
+  # по адресу host.docker.internal:порт
+  uris:
+  - /users/dd9579a7-d070-478a-97d4-1362607bc6da
+  - /subscriptions/dd9579a7-d070-478a-97d4-1362607bc6da
+  # - /users
+  load_profile:
+    load_type: rps
+    schedule: const(10, 10m)
+    # С какой интенсивностью
+# будет подаваться нагрузка. (профиль нагрузки)
+# const(30, 10m) - значит, что будет выполняться 30 запросов в секунду
+# (rps, requests per seconds), в течении 10 минут.
+# бывают более сложные и вариативные профили нагрузки,
+# см. документацию Яндекс-Танка
+
+console:
+  enabled: true # enable console output
+telegraf:
+  enabled: false # let's disable telegraf monitoring for the first time

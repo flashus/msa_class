@@ -40,3 +40,5 @@ out/
 data/
 .env
 ref_data/
+**logs**
+.load/tank_errors.log

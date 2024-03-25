@@ -23,14 +23,15 @@ public class UserService {
     public ResponseEntity<String> createUser(@NonNull User user) {
         User savedUser = userRepository.save(user);
 
-        String desc = String.format("Пользователь %s добавлен в базу с id = %s", savedUser.getLname(),
-                savedUser.getId());
+        String desc = String.format("Пользователь %s добавлен в базу с id = %s",
+                savedUser.getLname(), savedUser.getId());
         HttpHeaders headers = Common.getHeaders(savedUser.getId(), "/users/");
         return new ResponseEntity<>(desc, headers, HttpStatus.CREATED);
     }
 
     public User getUser(@NonNull UUID id) {
-        return userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return userRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     public ResponseEntity<String> updateUser(User user, @NonNull UUID id) {
@@ -62,7 +63,7 @@ public class UserService {
 
         String desc = String.format("Пользователь с id = %s успешно удален", id);
 
-        return new ResponseEntity<>(desc, headers, HttpStatus.OK);
+        return new ResponseEntity<>(desc, headers, HttpStatus.NO_CONTENT);
 
     }
 

@@ -7,6 +7,8 @@ variables:
   # В переменных можно ссылаться на другие переменные, в том числе те, которые предоставляет GitLab.
   # Таких переменных довольно много, и можно, например, получить информацию о теге коммита:
   APP_TAG: $CI_COMMIT_TAG
+  # SONAR_USER_HOME: "$CI_PROJECT_DIR/.sonar"
+# GIT_DEPTH: "0"
 
 # Здесь перечислены этапы сборки в нужном порядке.
 # Называть этапы можно как угодно:
@@ -14,8 +16,11 @@ stages:
 - build
 - test
 - build_image
+# - code_quality
 - deploy_dev
+- smoke
 - deploy_test
+- regression
 
 # Чтобы использовать результаты сборки на разных шагах, добавим кеш, иначе собрать артефакт с JAR-файлом, полученным на этапе build_app, нельзя:
 cache:
@@ -39,7 +44,28 @@ run_tests:
   # Обратите внимание на переиспользование переменных:
   # image: openjdk:$JAVA_VERSION
   image: gradle:8.6-jdk$JAVA_VERSION
-  script: ./gradlew check
+  script: ./gradlew test
+
+run_smoke:
+  stage: smoke
+  image: gradle:8.6-jdk$JAVA_VERSION
+  script: ./gradlew integrationTest --tests ru.idyachenko.users.smoke.SmokeTest
+
+run_regression:
+  stage: regression
+  image: gradle:8.6-jdk$JAVA_VERSION
+  script: ./gradlew integrationTest --tests ru.idyachenko.users.regression.RegressionTest
+
+# run_sonar:
+#   stage: code_quality
+#   image: gradle:8.6-jdk$JAVA_VERSION
+#   cache:
+#     key: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG-sonar-cache"
+#     paths:
+#     - ".sonar/cache"
+#   script: ./gradlew sonarqube
+#   rules:
+#   - if: "$CI_BUILD_REF_NAME != 'main' && $CI_PIPELINE_SOURCE == 'push' || $CI_PIPELINE_SOURCE == 'merge_request_event' "
 
 build_artifact:
   stage: build_image
@@ -89,3 +115,10 @@ deploy_artifact_test:
   - kubectl config use-context flash.us/msa_class:users-k8s-agent
   - kubectl get pods
   - cd .chart && helm upgrade users-test . -i -f values-test.yaml
+
+stress_test:
+  stage: stress_test
+  image: direvius/yandex-tank:latest
+
+  script:
+  - cd .load && tank run

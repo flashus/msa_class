@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
 import ru.idyachenko.users.entity.City;
 import ru.idyachenko.users.entity.Gender;
 import ru.idyachenko.users.entity.Skill;
@@ -22,6 +23,7 @@ import ru.idyachenko.users.repository.UserRepository;
 import ru.idyachenko.users.repository.UserSkillRepository;
 // import ru.idyachenko.users.service.SkillService;
 import ru.idyachenko.users.service.SubscriptionService;
+import ru.idyachenko.users.service.UserService;
 import ru.idyachenko.users.service.UserSkillService;
 
 @SpringBootApplication
@@ -29,6 +31,9 @@ public class UsersApplication {
 
     @Autowired
     BuildProperties buildProperties;
+
+    @Autowired
+    private Environment env;
 
     public static void main(String[] args) {
         SpringApplication.run(UsersApplication.class, args);
@@ -88,8 +93,10 @@ public class UsersApplication {
             List<User> petrovList = userRepository.findByLname("Petrov");
 
             UserSkillService userSkillService = new UserSkillService(userSkillRepository);
+            UserService userService = new UserService(userRepository);
+
             SubscriptionService subscriptionService =
-                    new SubscriptionService(subscriptionRepository);
+                    new SubscriptionService(subscriptionRepository, userService);
             // for (User user: repository.findAll()) {
             for (User user : petrovList) {
                 System.out.println("User: " + user);
@@ -108,6 +115,8 @@ public class UsersApplication {
             System.out.println("Build Time: " + buildProperties.getTime());
             System.out.println("Artifact: " + buildProperties.getArtifact());
             System.out.println("Group: " + buildProperties.getGroup());
+
+            System.out.println("Port: " + env.getProperty("server.port"));
             System.out.println(
                     "====================================================================================");
 

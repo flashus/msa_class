@@ -64,6 +64,12 @@ public class Subscription {
         this.createdAt = new Timestamp(System.currentTimeMillis());
     }
 
+    // public Subscription(SubscriptionId subscriptionId) {
+    // this.userFollowing = subscriptionId.userFollowing;
+    // this.userFollowed = subscriptionId.userFollowed;
+    // this.createdAt = new Timestamp(System.currentTimeMillis());
+    // }
+
     public Subscription() {
         this.createdAt = new Timestamp(System.currentTimeMillis());
     }
