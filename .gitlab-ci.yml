@@ -50,6 +50,12 @@ run_tests:
 run_smoke:
   stage: smoke
   image: gradle:8.6-jdk$JAVA_VERSION
+  # services:
+  # - postgres:latest
+  # variables:
+  #   POSTGRES_DB: your_db
+  #   POSTGRES_USER: user
+  #   POSTGRES_PASSWORD: password
   script: ./gradlew integrationTest --tests ru.idyachenko.users.smoke.SmokeTest
 
 run_regression:
@@ -120,6 +126,10 @@ deploy_artifact_test:
 stress_test:
   stage: load
   image: direvius/yandex-tank:latest
-
+  # script:
+  # - cd .load && tank run
   script:
-  - cd .load && tank run
+  - chmod +x ./.load/yandextank.sh && ./.load/yandextank.sh
+  artifacts:
+    paths:
+    - yandextank_report
