@@ -125,7 +125,9 @@ deploy_artifact_test:
 
 stress_test:
   stage: load
-  image: direvius/yandex-tank:latest
+  image:
+    name: direvius/yandex-tank:latest
+    entrypoint: ['']
   # script:
   # - cd .load && tank run
   script: chmod +x ./load/yandextank.sh && ./load/yandextank.sh
