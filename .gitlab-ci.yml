@@ -21,6 +21,7 @@ stages:
 - smoke
 - deploy_test
 - regression
+- load
 
 # Чтобы использовать результаты сборки на разных шагах, добавим кеш, иначе собрать артефакт с JAR-файлом, полученным на этапе build_app, нельзя:
 cache:
@@ -117,7 +118,7 @@ deploy_artifact_test:
   - cd .chart && helm upgrade users-test . -i -f values-test.yaml
 
 stress_test:
-  stage: stress_test
+  stage: load
   image: direvius/yandex-tank:latest
 
   script:
