@@ -129,7 +129,7 @@ stress_test:
   # script:
   # - cd .load && tank run
   script:
-  - chmod +x ./.load/yandextank.sh && ./.load/yandextank.sh
+  - chmod +x ./load/yandextank.sh && ./load/yandextank.sh
   artifacts:
     paths:
     - yandextank_report

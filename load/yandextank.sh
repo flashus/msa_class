@@ -23,7 +23,7 @@ echo "INFO - Some Yandex.Tank prepare steps..."
 ls -la
 
 echo "INFO - Running Yandex.Tank..."
-yandex-tank -c .load/load.yaml
+yandex-tank -c load/load.yaml
 
 echo "DEBUG - Some steps to prepare reports..."
 mkdir yandextank_report
