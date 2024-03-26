@@ -11,7 +11,39 @@ spec:
     - host: {{ .Values.appHost }} # users.local
       http:
         paths:
-          - path: /
+          - path: /users(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.ingressedService }} # users-app-backend-service
+                port:
+                  # number: 8080
+                  number: 80
+          - path: /subscriptions(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.ingressedService }} # users-app-backend-service
+                port:
+                  # number: 8080
+                  number: 80
+          - path: /cities(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.ingressedService }} # users-app-backend-service
+                port:
+                  # number: 8080
+                  number: 80
+          - path: /skills(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.ingressedService }} # users-app-backend-service
+                port:
+                  # number: 8080
+                  number: 80
+          - path: /user-skills(/|$)(.*)
             pathType: Prefix
             backend:
               service:
