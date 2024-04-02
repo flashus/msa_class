@@ -1,0 +1,18 @@
+namespace: &namespace idyachenko-users-preprod
+appHost: idyachenko-users-preprod.local
+
+apps:
+  backend:
+    appName: users-backend
+    namespace: *namespace
+    replicasCount: 1
+    container:
+      version: v1.0.0
+
+  db:
+    appName: users-db
+    namespace: *namespace
+    replicasCount: 1
+    container:
+      version: 14
+
