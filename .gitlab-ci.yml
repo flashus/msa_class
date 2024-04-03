@@ -42,7 +42,7 @@ stages:
 # Опишем шаблон деплоя, чтобы не писать его снова и снова. В Gitlab имена шаблонов начинают с точки
 .deploy:
   # Указываем этап, образ и команду деплоя при помощи helm
-  stage: deploy
+  # stage: deploy
   image: $IMG_K8S
   script:
   - echo "Starting"
@@ -143,7 +143,7 @@ build-artifact:
   - docker build -t $REGISTRY_USER/$APP_IMAGE:$APP_TAG .
   - docker push $REGISTRY_USER/$APP_IMAGE:$APP_TAG
   needs:
-  - build-app
+  # - build-app
   - run-tests
   - run-smoke
   - run-regression
@@ -214,8 +214,8 @@ stress-test:
   artifacts:
     paths:
     - yandextank_report
-  needs:
-  - deploy-to-test
+  # needs:
+# - deploy-to-test
 
 # Деплой в препрод будем осуществлять только после мержа dev -> main, так мы обеспечим больший контроль над релизами
 deploy-to-preprod:
