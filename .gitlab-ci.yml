@@ -28,8 +28,8 @@ stages:
 - build_image
 # - code_quality
 # - deploy_dev
-- smoke
-- regression
+# - smoke
+# - regression
 
 - deploy
 # - deploy_test
@@ -82,7 +82,7 @@ run-tests:
   - build-app
 
 run-smoke:
-  stage: smoke
+  stage: test
   image: gradle:8.6-jdk$JAVA_VERSION
   # services:
   # - postgres:latest
@@ -96,7 +96,7 @@ run-smoke:
   - run-tests
 
 run-regression:
-  stage: regression
+  stage: test
   image: gradle:8.6-jdk$JAVA_VERSION
   script: ./gradlew integrationTest --tests ru.idyachenko.users.regression.RegressionTest
   needs:
