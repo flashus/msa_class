@@ -28,11 +28,13 @@ stages:
 - build_image
 # - code_quality
 # - deploy_dev
-- deploy
 - smoke
+- regression
+
+- deploy
 # - deploy_test
 - release
-- regression
+
 - load
 - production
 
