@@ -60,7 +60,7 @@ cache:
   - build/
 
 # Далее описываем шаги сборки. Называть их можно практически как угодно, нельзя лишь использовать зарезервированные имена:
-build_app:
+build-app:
   # Привязываем шаг к определённому этапу:
   stage: build
   # Указываем образ, который будет использоваться для выполнения шага:
@@ -70,14 +70,16 @@ build_app:
   script: "./gradlew assemble"
   # script: "chmod +x ./gradlew && ./gradlew assemble"
 
-run_tests:
+run-tests:
   stage: test
   # Обратите внимание на переиспользование переменных:
   # image: openjdk:$JAVA_VERSION
   image: gradle:8.6-jdk$JAVA_VERSION
   script: ./gradlew test
+  needs:
+  - build-app
 
-run_smoke:
+run-smoke:
   stage: smoke
   image: gradle:8.6-jdk$JAVA_VERSION
   # services:
@@ -87,11 +89,18 @@ run_smoke:
   #   POSTGRES_USER: user
   #   POSTGRES_PASSWORD: password
   script: ./gradlew integrationTest --tests ru.idyachenko.users.smoke.SmokeTest
+  needs:
+  - build-app
+  - run-tests
 
-run_regression:
+run-regression:
   stage: regression
   image: gradle:8.6-jdk$JAVA_VERSION
   script: ./gradlew integrationTest --tests ru.idyachenko.users.regression.RegressionTest
+  needs:
+  - build-app
+  - run-tests
+  - run-smoke
 
 # run_sonar:
 #   stage: code_quality
@@ -104,7 +113,7 @@ run_regression:
 #   rules:
 #   - if: "$CI_BUILD_REF_NAME != 'main' && $CI_PIPELINE_SOURCE == 'push' || $CI_PIPELINE_SOURCE == 'merge_request_event' "
 
-build_artifact:
+build-artifact:
   stage: build_image
   # Для сборки образа будем использовать механизм docker in docker:
   image: docker:latest
@@ -130,6 +139,11 @@ build_artifact:
   script:
   - docker build -t $REGISTRY_USER/$APP_IMAGE:$APP_TAG .
   - docker push $REGISTRY_USER/$APP_IMAGE:$APP_TAG
+  needs:
+  - build-app
+  - run-tests
+  - run-smoke
+  - run-regression
 
 # deploy_artifact_dev:
 #   stage: deploy_dev
@@ -153,18 +167,6 @@ build_artifact:
 #   - kubectl get pods
 #   - cd .chart && helm upgrade users-test . -i -f values-test.yaml
 
-stress_test:
-  stage: load
-  image:
-    name: direvius/yandex-tank:latest
-    entrypoint: ['']
-  # script:
-  # - cd .load && tank run
-  script: chmod +x ./load/yandextank.sh && ./load/yandextank.sh
-  artifacts:
-    paths:
-    - yandextank_report
-
 
 # Опишем шаг деплоя в dev окружение
 deploy-to-dev:
@@ -177,6 +179,22 @@ deploy-to-dev:
   # Если ветка отличается, то шаг будет пропущен
   only:
   - dev
+  needs:
+  - build-artifact
+
+stress-test:
+  stage: load
+  image:
+    name: direvius/yandex-tank:latest
+    entrypoint: ['']
+  # script:
+  # - cd .load && tank run
+  script: chmod +x ./load/yandextank.sh && ./load/yandextank.sh
+  artifacts:
+    paths:
+    - yandextank_report
+  needs:
+  - deploy-to-dev
 
 # Теперь опишем деплой в тестовое окружение
 deploy-to-test:
@@ -190,6 +208,8 @@ deploy-to-test:
   # пайлайн будет находиться в состоянии blocked до тех пор пока шаг не будет подтвержден
   - if: $CI_COMMIT_BRANCH == $BRANCH_DEV
   when: manual
+  needs:
+  - build-artifact
 
 # Деплой в препрод будем осуществлять только после мержа dev -> main, так мы обеспечим больший контроль над релизами
 deploy-to-preprod:
@@ -198,6 +218,8 @@ deploy-to-preprod:
     ENV: preprod
   rules:
   - if: $CI_COMMIT_REF_NAME == $BRANCH_RELEASE
+  needs:
+  - build-artifact
 
 # В случае если у коммита есть тэг, мы так же создадим и релиз в Gitlab, он нам тоже пригодится для истории
 release:
@@ -211,6 +233,8 @@ release:
   - tags
   script:
   - echo "Creating release"
+  needs:
+  - build-artifact
 
 # Шаг деплоя в продакшен выделим в отдельный этап, т.к. это важная веха в жизненном цикле приложения
 deploy-to-production:
@@ -222,6 +246,8 @@ deploy-to-production:
   rules:
   - if: $CI_COMMIT_REF_NAME == $BRANCH_RELEASE
   when: manual
+  needs:
+  - build-artifact
 
 # Добавим к шагу деплой и шаг отката. Вообще в Gitlab CI откаты обычно реализуют иначе, достаточно просто заново запустить любой предыдущий пайплайн, при этом гитлаб переключится на соответствующий коммит и выполнит шаги раскатки предыдущей стабильной версии. Такой подход не зависит от инструментов автоматизации, и может применяться в любом проекте.
 # Тут для примера откат выполняет отдельным опциональным шагом при помощи helm rollback, причем сам шаг доступен только после того как выполнится деплой и требует ручного запуска.
