@@ -16,7 +16,7 @@ variables:
   BRANCH_DEV: dev
   BRANCH_RELEASE: main
   # Название промышленного окружения
-  ENV_PRODUCTION: prod
+  ENV_PRODUCTION: production
   # И образ для пайплайна с kubectl и helm
   IMG_K8S: alpine/k8s:1.20.15
 
@@ -31,11 +31,12 @@ stages:
 # - smoke
 # - regression
 
-- deploy
+- deploy_dev
 # - deploy_test
-- release
-
+- deploy_test
 - load
+- deploy_preprod
+- release
 - production
 
 # Опишем шаблон деплоя, чтобы не писать его снова и снова. В Gitlab имена шаблонов начинают с точки
@@ -172,6 +173,7 @@ build-artifact:
 
 # Опишем шаг деплоя в dev окружение
 deploy-to-dev:
+  stage: deploy_dev
   # указываем родительский шаблон
   extends: .deploy
   # И конкретные значения переменных, которые в него передаются
@@ -181,6 +183,23 @@ deploy-to-dev:
   # Если ветка отличается, то шаг будет пропущен
   only:
   - dev
+  needs:
+  - build-artifact
+
+
+# Теперь опишем деплой в тестовое окружение
+deploy-to-test:
+  stage: deploy_test
+  extends: .deploy
+  variables:
+    ENV: test
+  # Другой способ для описания условий для запуска пайплайна - блок rules
+  rules:
+  # Тут можно задать условие: название ветки с коммитом должно совпадать со значением переменной $BRANCH_DEV
+  # when: manual означает что требуется подтверждение для запуска этого шага (мы ведь не хотим случайно сломать тестерам их окружение)
+  # пайлайн будет находиться в состоянии blocked до тех пор пока шаг не будет подтвержден
+  - if: $CI_COMMIT_BRANCH == $BRANCH_DEV
+  when: manual
   needs:
   - build-artifact
 
@@ -196,25 +215,11 @@ stress-test:
     paths:
     - yandextank_report
   needs:
-  - deploy-to-dev
-
-# Теперь опишем деплой в тестовое окружение
-deploy-to-test:
-  extends: .deploy
-  variables:
-    ENV: test
-  # Другой способ для описания условий для запуска пайплайна - блок rules
-  rules:
-  # Тут можно задать условие: название ветки с коммитом должно совпадать со значением переменной $BRANCH_DEV
-  # when: manual означает что требуется подтверждение для запуска этого шага (мы ведь не хотим случайно сломать тестерам их окружение)
-  # пайлайн будет находиться в состоянии blocked до тех пор пока шаг не будет подтвержден
-  - if: $CI_COMMIT_BRANCH == $BRANCH_DEV
-  when: manual
-  needs:
-  - build-artifact
+  - deploy-to-test
 
 # Деплой в препрод будем осуществлять только после мержа dev -> main, так мы обеспечим больший контроль над релизами
 deploy-to-preprod:
+  stage: deploy_preprod
   extends: .deploy
   variables:
     ENV: preprod
